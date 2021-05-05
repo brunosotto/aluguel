@@ -1,0 +1,8 @@
+{
+  "name": "Aluguel",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "b8349169"
+}
