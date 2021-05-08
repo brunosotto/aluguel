@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Incluir lançamento
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [formGroup]="form">
+  <ion-list>
+    <ion-radio-group value="biff">
+      <ion-list-header>
+        <ion-label>Tipo de lançamento</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Débito</ion-label>
+        <ion-radio slot="end"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Crédito</ion-label>
+        <ion-radio slot="end"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+    <ion-item>
+      <ion-label position="floating">Valor</ion-label>
+      <ion-input formControlName="valor"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descrição</ion-label>
+      <ion-textarea rows="8"></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)=salvar()>Salvar</ion-button>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-button color="secondary" (click)=cancelar()>Cancelar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

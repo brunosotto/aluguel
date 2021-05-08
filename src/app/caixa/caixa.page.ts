@@ -4,6 +4,7 @@ import { OverlayEventDetail } from '@ionic/core';
 import { ModalController } from '@ionic/angular';
 import { Caixa } from '../../model/caixa.model';
 import { Component } from '@angular/core';
+import { CaixaModalPage } from './caixa-modal/caixa-modal.page';
 
 @Component({
     selector: 'app-caixa',
@@ -26,13 +27,18 @@ export class CaixaPage {
 
     public cancelar(lancamento: Caixa): void {
         console.log('cancelar: ', lancamento);
+    }
 
-        this.presentModal();
+    public novo(): void {
+        console.log('novo');
+        this.presentModal().then(ret => {
+            console.log(ret);
+        });
     }
 
     private async presentModal(): Promise<OverlayEventDetail<boolean>> {
         const modal = await this.modalController.create({
-            component: CaixaPage,
+            component: CaixaModalPage,
             cssClass: 'my-custom-class'
         });
         modal.present();
