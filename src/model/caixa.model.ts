@@ -7,6 +7,7 @@ export interface Caixa {
     valor?: number;
     descricao?: string;
     aluguel?: Aluguel;
+    aluguelId?: string;
     contaDeConsumo?: boolean;
     cancelado?: boolean;
     motivoCancelamento?: string;

@@ -4,7 +4,9 @@ import { Inquilino } from './inquilino.model';
 export interface Contrato {
     id?: string;
     imovel?: Imovel;
+    imovelId?: string;
     inquilino?: Inquilino;
+    inquilinoId?: string;
     valor?: number;
     dataInicio?: Date;
     dataEncerramento?: Date;

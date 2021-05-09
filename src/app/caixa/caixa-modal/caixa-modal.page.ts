@@ -44,6 +44,7 @@ export class CaixaModalPage implements OnDestroy {
       valor: [null],
       descricao: [null],
       aluguel: [null],
+      aluguelId: [null],
       contaDeConsumo: [false],
       cancelado: [false],
       motivoCancelamento: [null],
