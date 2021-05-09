@@ -1,0 +1,38 @@
+.fab-button {
+  top: -6px;
+}
+
+.item-accordion {
+  transition: max-height 0.5s;
+  overflow: hidden;
+  max-height: 0;
+
+  &.show {
+    max-height: 800px;
+  }
+}
+
+.item-accordion-content {
+  background-color: #00000020;
+  width: 100%;
+  padding: 5px;
+
+  div {
+    margin-bottom: 12px;
+    font-size: 14px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.2;
+
+      &:first-child {
+        margin-bottom: 3px;
+        font-weight: 600;
+      }
+    }
+  }
+}
