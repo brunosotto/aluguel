@@ -26,6 +26,10 @@ const routes: Routes = [
             path: 'contrato',
             loadChildren: () => import('../contrato/contrato.module').then(m => m.ContratoPageModule)
           },
+          {
+            path: 'inquilino',
+            loadChildren: () => import('../inquilino/inquilino.module').then(m => m.InquilinoPageModule)
+          },
         ]
       },
       {
@@ -41,7 +45,12 @@ const routes: Routes = [
         path: 'contrato',
         redirectTo: '/tabs/cadastros/contrato',
         pathMatch: 'full'
-      }
+      },
+      {
+        path: 'inquilino',
+        redirectTo: '/tabs/cadastros/inquilino',
+        pathMatch: 'full'
+      },
     ]
   },
   {
