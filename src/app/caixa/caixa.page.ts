@@ -20,7 +20,7 @@ export class CaixaPage {
     constructor(
         private modalController: ModalController,
         private alertController: AlertController,
-        private caixaService: CaixaService,
+        private service: CaixaService,
     ) {
         this.load();
     }
@@ -42,7 +42,7 @@ export class CaixaPage {
             ],
             buttons: [
                 {
-                    text: 'Cancel',
+                    text: 'Cancelar',
                     role: 'cancel',
                     cssClass: 'secondary',
                 }, {
@@ -67,20 +67,22 @@ export class CaixaPage {
 
     public novo(): void {
         this.presentModal().then(ret => {
-            this.caixaService.inserir(ret.data).then(() => {
-                this.load();
-            });
+            this.update(ret.data);
         });
     }
 
     private update(lancamento: Caixa): void {
-        this.caixaService.alterar(lancamento).then(() => {
+        (
+            !!lancamento.id ?
+                this.service.alterar(lancamento) :
+                this.service.inserir(lancamento)
+        ).then(() => {
             this.load();
         });
     }
 
     private async load(): Promise<void> {
-        this.lancamentos = (await this.caixaService.listar()).reverse();
+        this.lancamentos = (await this.service.listar()).reverse();
     }
 
     private async presentModal(): Promise<OverlayEventDetail<Caixa>> {
