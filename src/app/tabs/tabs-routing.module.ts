@@ -30,6 +30,10 @@ const routes: Routes = [
             path: 'inquilino',
             loadChildren: () => import('../inquilino/inquilino.module').then(m => m.InquilinoPageModule)
           },
+          {
+            path: 'imovel',
+            loadChildren: () => import('../imovel/imovel.module').then(m => m.ImovelPageModule)
+          },
         ]
       },
       {
@@ -49,6 +53,11 @@ const routes: Routes = [
       {
         path: 'inquilino',
         redirectTo: '/tabs/cadastros/inquilino',
+        pathMatch: 'full'
+      },
+      {
+        path: 'imovel',
+        redirectTo: '/tabs/cadastros/imovel',
         pathMatch: 'full'
       },
     ]
