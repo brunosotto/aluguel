@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Incluir lançamento
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [formGroup]="form">
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Nome</ion-label>
+      <ion-input type="text" formControlName="nome"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Telefone</ion-label>
+      <ion-input type="text" formControlName="telefone"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">CPF</ion-label>
+      <ion-input type="text" formControlName="cpf"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Emprego</ion-label>
+      <ion-input type="text" formControlName="emprego"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Observações</ion-label>
+      <ion-textarea rows="8" formControlName="obs"></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="medium" (click)=cancelar()>Cancelar</ion-button>
+      </ion-col>
+
+      <ion-col class="ion-text-center">
+        <ion-button (click)=salvar()>Salvar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
