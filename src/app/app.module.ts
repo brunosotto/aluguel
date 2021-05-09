@@ -8,6 +8,7 @@ import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { Nl2BrPipeModule } from 'nl2br-pipe';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 registerLocaleData(localePt, 'pt');
 @NgModule({
@@ -16,6 +17,7 @@ registerLocaleData(localePt, 'pt');
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     Nl2BrPipeModule,
   ],

@@ -85,4 +85,29 @@ export const lancamentosMock: Caixa[] = [
         data: new Date('2021-03-23'),
         valor: 756.98,
     },
+    {
+        id: '2fb5',
+        tipoLancamento: 'D',
+        data: new Date('2021-03-23'),
+        contaDeConsumo: true,
+        valor: 77898.32,
+    },
+    {
+        id: '2fb6',
+        tipoLancamento: 'C',
+        data: new Date('2021-03-23'),
+        valor: 87.98,
+    },
+    {
+        id: '2fb7',
+        tipoLancamento: 'C',
+        data: new Date('2021-03-23'),
+        valor: 876.56,
+    },
+    {
+        id: '2fb8',
+        tipoLancamento: 'C',
+        data: new Date('2021-03-23'),
+        valor: 3541.48,
+    },
 ];

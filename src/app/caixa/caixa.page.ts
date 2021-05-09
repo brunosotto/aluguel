@@ -1,10 +1,10 @@
 
-import { lancamentosMock } from '../../mock/caixa.mock';
+import { AlertController, ModalController } from '@ionic/angular';
+import { CaixaModalPage } from './caixa-modal/caixa-modal.page';
+import { CaixaService } from '../api/caixa.service';
 import { OverlayEventDetail } from '@ionic/core';
-import { ModalController } from '@ionic/angular';
 import { Caixa } from '../../model/caixa.model';
 import { Component } from '@angular/core';
-import { CaixaModalPage } from './caixa-modal/caixa-modal.page';
 
 @Component({
     selector: 'app-caixa',
@@ -13,36 +13,83 @@ import { CaixaModalPage } from './caixa-modal/caixa-modal.page';
 })
 export class CaixaPage {
 
-    public lancamentos: Caixa[] = lancamentosMock;
+    public lancamentos: Caixa[];
 
     public expanded: string;
 
     constructor(
-        public modalController: ModalController,
-    ) { }
+        private modalController: ModalController,
+        private alertController: AlertController,
+        private caixaService: CaixaService,
+    ) {
+        this.load();
+    }
 
     public expandItem(id: string): void {
         this.expanded = this.expanded !== id ? id : null;
     }
 
-    public cancelar(lancamento: Caixa): void {
-        console.log('cancelar: ', lancamento);
+    public async cancelar(lancamento: Caixa) {
+        const alert = await this.alertController.create({
+            cssClass: 'my-custom-class',
+            header: 'Informe o motivo!',
+            inputs: [
+                {
+                    name: 'motivo',
+                    type: 'textarea',
+                    placeholder: 'Motivo'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                }, {
+                    text: 'Ok',
+                    handler: ({ motivo }: {motivo: string}) => {
+                        lancamento.motivoCancelamento = motivo;
+                        lancamento.cancelado = true;
+                        this.update(lancamento);
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
+    public restaurar(lancamento: Caixa): void {
+        lancamento.motivoCancelamento = null;
+        lancamento.cancelado = false;
+        this.update(lancamento);
     }
 
     public novo(): void {
-        console.log('novo');
         this.presentModal().then(ret => {
-            console.log(ret);
+            this.caixaService.inserir(ret.data).then(() => {
+                this.load();
+            });
         });
     }
 
-    private async presentModal(): Promise<OverlayEventDetail<boolean>> {
+    private update(lancamento: Caixa): void {
+        this.caixaService.alterar(lancamento).then(() => {
+            this.load();
+        });
+    }
+
+    private async load(): Promise<void> {
+        this.lancamentos = (await this.caixaService.listar()).reverse();
+    }
+
+    private async presentModal(): Promise<OverlayEventDetail<Caixa>> {
         const modal = await this.modalController.create({
             component: CaixaModalPage,
             cssClass: 'my-custom-class'
         });
         modal.present();
-        return modal.onWillDismiss<boolean>();
+        return modal.onWillDismiss<Caixa>();
     }
 
 }
