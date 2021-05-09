@@ -16,8 +16,17 @@ const routes: Routes = [
         loadChildren: () => import('../caixa/caixa.module').then(m => m.CaixaPageModule)
       },
       {
-        path: 'contrato',
-        loadChildren: () => import('../contrato/contrato.module').then(m => m.ContratoPageModule)
+        path: 'cadastros',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../cadastros/cadastros.module').then(m => m.CadastrosPageModule)
+          },
+          {
+            path: 'contrato',
+            loadChildren: () => import('../contrato/contrato.module').then(m => m.ContratoPageModule)
+          },
+        ]
       },
       {
         path: 'configurar',
@@ -26,6 +35,11 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: '/tabs/aluguel',
+        pathMatch: 'full'
+      },
+      {
+        path: 'contrato',
+        redirectTo: '/tabs/cadastros/contrato',
         pathMatch: 'full'
       }
     ]
