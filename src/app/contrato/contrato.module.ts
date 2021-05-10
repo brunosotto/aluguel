@@ -7,6 +7,8 @@ import { ContratoPage } from './contrato.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { ContratoPageRoutingModule } from './contrato-routing.module';
 import { ContratoModalPage } from './contrato-modal/contrato-modal.page';
+import { SeletorImovelComponent } from './seletor-imovel/seletor-imovel.component';
+import { SeletorImovelModalPage } from './seletor-imovel/seletor-imovel-modal/seletor-imovel-modal.page';
 
 @NgModule({
   imports: [
@@ -20,10 +22,13 @@ import { ContratoModalPage } from './contrato-modal/contrato-modal.page';
   ],
   entryComponents: [
     ContratoModalPage,
+    SeletorImovelModalPage,
   ],
   declarations: [
     ContratoPage,
     ContratoModalPage,
+    SeletorImovelComponent,
+    SeletorImovelModalPage,
   ]
 })
 export class ContratoPageModule {}

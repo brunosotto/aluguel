@@ -34,11 +34,11 @@ export class InquilinoModalPage implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  salvar() {
+  public salvar(): void {
     this.modalController.dismiss(this.form.value as Inquilino);
   }
 
-  cancelar() {
+  public cancelar(): void {
     this.modalController.dismiss();
   }
 

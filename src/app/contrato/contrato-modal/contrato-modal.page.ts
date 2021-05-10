@@ -40,11 +40,11 @@ export class ContratoModalPage implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    salvar() {
+    public salvar(): void {
         this.modalController.dismiss(this.form.value as Contrato);
     }
 
-    cancelar() {
+    public cancelar(): void {
         this.modalController.dismiss();
     }
 

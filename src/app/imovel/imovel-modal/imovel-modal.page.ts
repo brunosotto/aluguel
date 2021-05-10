@@ -34,11 +34,11 @@ export class ImovelModalPage implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  salvar() {
+  public salvar(): void {
     this.modalController.dismiss(this.form.value as Imovel);
   }
 
-  cancelar() {
+  public cancelar(): void {
     this.modalController.dismiss();
   }
 

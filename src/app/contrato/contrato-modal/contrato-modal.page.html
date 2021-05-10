@@ -8,10 +8,10 @@
 
 <ion-content [fullscreen]="true" [formGroup]="form">
   <ion-list>
-    <ion-item>
-      <ion-label position="floating">Imóvel</ion-label>
-      <ion-input type="text" formControlName="imovel"></ion-input>
-    </ion-item>
+    <app-seletor-imovel
+      [imovelControl]="form.get('imovel')"
+      [imovelIdControl]="form.get('imovelId')">
+    </app-seletor-imovel>
 
     <ion-item>
       <ion-label position="floating">Inquilino</ion-label>

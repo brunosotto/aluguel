@@ -28,11 +28,11 @@ export class CaixaModalPage implements OnDestroy {
     this.destroy$.complete();
   }
 
-  salvar() {
+  public salvar(): void {
     this.modalController.dismiss(this.form.value as Caixa);
   }
 
-  cancelar() {
+  public cancelar(): void {
     this.modalController.dismiss();
   }
 
