@@ -1,5 +1,7 @@
-import { Storage } from '@ionic/storage-angular';
+import { InquilinoService } from './inquilino.service';
 import { Contrato } from '../../model/contrato.model';
+import { Storage } from '@ionic/storage-angular';
+import { ImovelService } from './imovel.service';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 
@@ -11,7 +13,11 @@ const KEY = 'contrato';
 export class ContratoService {
   private store: Storage | null = null;
 
-  constructor(private storage: Storage) {
+  constructor(
+    private storage: Storage,
+    private inquilinoService: InquilinoService,
+    private imovelService: ImovelService
+  ) {
   }
 
   async init(): Promise<boolean> {
@@ -24,7 +30,8 @@ export class ContratoService {
       await this.init();
     }
 
-    return await this.store.get(KEY) || [];
+    const contratos = await this.store.get(KEY) || [];
+    return await this.agregate(contratos);
   }
 
   public async inserir(contrato: Contrato): Promise<boolean> {
@@ -32,9 +39,10 @@ export class ContratoService {
       await this.init();
     }
 
+    // coloca id
     contrato.id = uuid();
     const list = await this.listar() || [];
-    list.push(contrato);
+    list.push(this.sanitize(contrato));
     await this.store?.set(KEY, list);
     return true;
   }
@@ -46,9 +54,27 @@ export class ContratoService {
 
     const list = await this.listar() || [];
     const index = list.map(v => v.id).indexOf(contrato.id);
-    list[index] = contrato;
+    list[index] = this.sanitize(contrato);
     await this.store?.set(KEY, list);
     return true;
+  }
+
+  private async agregate(contratos: Contrato[]): Promise<Contrato[]> {
+    const inquilinos = await this.inquilinoService.listar();
+    const imoveis = await this.imovelService.listar();
+    return contratos.map(c => {
+      c.inquilino = inquilinos.find(i => c.inquilinoId === i.id);
+      c.imovel = imoveis.find(i => c.imovelId === i.id);
+      return c;
+    });
+  }
+
+  private sanitize(contrato: Contrato): Contrato {
+    // remove os objetos auxiliares
+    delete contrato.inquilino;
+    delete contrato.imovel;
+
+    return contrato;
   }
 
 }

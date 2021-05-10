@@ -23,6 +23,25 @@
   </ion-header>
 
   <ion-list>
+    <ion-list-header>
+      <ion-button
+        shape="round"
+        fill="solid"
+        [color]="filter === 'A' ? 'primary' : 'medium'"
+        (click)="setFilter('A')"
+        size="small">
+        Ativos
+      </ion-button>
+      <ion-button
+        shape="round"
+        fill="solid"
+        [color]="filter === 'I' ? 'primary' : 'medium'"
+        (click)="setFilter('I')"
+        size="small">
+        Inativos
+      </ion-button>
+    </ion-list-header>
+
     <ion-item-sliding *ngFor="let c of contratos">
       <ion-item-options side="start">
         <ion-item-option (click)="excluir(c)" color="danger">
@@ -81,7 +100,7 @@
                 <p>É antecipado</p>
               </div>
 
-              <div *ngIf="i.obs">
+              <div *ngIf="c.obs">
                 <p>Obs:</p>
                 <p [innerHTML]="c.obs | nl2br"></p>
               </div>
