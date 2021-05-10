@@ -1,0 +1,79 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Incluir contrato
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [formGroup]="form">
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">Imóvel</ion-label>
+      <ion-input type="text" formControlName="imovel"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Inquilino</ion-label>
+      <ion-input type="text" formControlName="inquilino"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Valor</ion-label>
+      <ion-input type="text" formControlName="valor"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Data de início</ion-label>
+      <ion-datetime
+        done-text="Ok"
+        cancel-text="Cancelar"
+        formControlName="dataInicio"
+        [dayShortNames]="customDayShortNames"
+        [displayFormat]="displayFormat"
+        [monthShortNames]="monthShortNames"
+        [pickerOptions]="getCustomOptions('dataInicio')"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Data de encerramento</ion-label>
+      <ion-datetime
+        done-text="Ok"
+        cancel-text="Cancelar"
+        formControlName="dataEncerramento"
+        [dayShortNames]="customDayShortNames"
+        [displayFormat]="displayFormat"
+        [monthShortNames]="monthShortNames"
+        [pickerOptions]="getCustomOptions('dataEncerramento')"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Dia de vencimento</ion-label>
+      <ion-input type="number" min="1" max="31" formControlName="diaVencimento"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>É antecipado</ion-label>
+      <ion-checkbox slot="end" formControlName="antecipado"></ion-checkbox>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Observações</ion-label>
+      <ion-textarea rows="8" formControlName="obs"></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="medium" (click)=cancelar()>Cancelar</ion-button>
+      </ion-col>
+
+      <ion-col class="ion-text-center">
+        <ion-button (click)=salvar()>Salvar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
