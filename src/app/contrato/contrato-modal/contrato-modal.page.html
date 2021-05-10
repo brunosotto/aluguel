@@ -13,10 +13,10 @@
       [imovelIdControl]="form.get('imovelId')">
     </app-seletor-imovel>
 
-    <ion-item>
-      <ion-label position="floating">Inquilino</ion-label>
-      <ion-input type="text" formControlName="inquilino"></ion-input>
-    </ion-item>
+    <app-seletor-inquilino
+      [inquilinoControl]="form.get('inquilino')"
+      [inquilinoIdControl]="form.get('inquilinoId')">
+    </app-seletor-inquilino>
 
     <ion-item>
       <ion-label position="floating">Valor</ion-label>

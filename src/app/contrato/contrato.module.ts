@@ -9,6 +9,8 @@ import { ContratoPageRoutingModule } from './contrato-routing.module';
 import { ContratoModalPage } from './contrato-modal/contrato-modal.page';
 import { SeletorImovelComponent } from './seletor-imovel/seletor-imovel.component';
 import { SeletorImovelModalPage } from './seletor-imovel/seletor-imovel-modal/seletor-imovel-modal.page';
+import { SeletorInquilinoComponent } from './seletor-inquilino/seletor-inquilino.component';
+import { SeletorInquilinoModalPage } from './seletor-inquilino/seletor-inquilino-modal/seletor-inquilino-modal.page';
 
 @NgModule({
   imports: [
@@ -29,6 +31,8 @@ import { SeletorImovelModalPage } from './seletor-imovel/seletor-imovel-modal/se
     ContratoModalPage,
     SeletorImovelComponent,
     SeletorImovelModalPage,
+    SeletorInquilinoComponent,
+    SeletorInquilinoModalPage,
   ]
 })
 export class ContratoPageModule {}
