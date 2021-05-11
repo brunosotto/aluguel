@@ -72,6 +72,7 @@ export class CaixaPage {
     }
 
     private update(lancamento: Caixa): void {
+        if (!lancamento) { return; }
         (
             !!lancamento.id ?
                 this.service.alterar(lancamento) :

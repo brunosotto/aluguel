@@ -63,6 +63,7 @@ export class ImovelPage {
     }
 
     private update(imovel: Imovel): void {
+        if (!imovel) { return; }
         (
             !!imovel.id ?
                 this.service.alterar(imovel) :

@@ -63,6 +63,7 @@ export class InquilinoPage {
     }
 
     private update(inquilino: Inquilino): void {
+        if (!inquilino) { return; }
         (
             !!inquilino.id ?
                 this.service.alterar(inquilino) :

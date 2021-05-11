@@ -63,6 +63,7 @@ export class AluguelPage {
     }
 
     private update(aluguel: Aluguel): void {
+        if (!aluguel) { return; }
         (
             !!aluguel.id ?
                 this.service.alterar(aluguel) :

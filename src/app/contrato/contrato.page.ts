@@ -70,6 +70,7 @@ export class ContratoPage {
     }
 
     private update(contrato: Contrato): void {
+        if (!contrato) { return; }
         (
             !!contrato.id ?
                 this.service.alterar(contrato) :
