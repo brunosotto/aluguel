@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Incluir aluguel
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [formGroup]="form">
+  <ion-list>
+    <ion-radio-group formControlName="gerar">
+      <ion-list-header>
+        <ion-label>Gerar:</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Todos</ion-label>
+        <ion-radio value="T" slot="end"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Apenas um</ion-label>
+        <ion-radio value="U" slot="end"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-item *ngIf="form.get('gerar').value === 'U'">
+      <ion-label position="floating">Contrato</ion-label>
+      <ion-input type="text" formControlName="contrato"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Mês competência</ion-label>
+      <ion-input type="text" formControlName="competencia"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="medium" (click)=cancelar()>Cancelar</ion-button>
+      </ion-col>
+
+      <ion-col class="ion-text-center">
+        <ion-button (click)=salvar()>Salvar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

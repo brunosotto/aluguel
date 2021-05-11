@@ -1,38 +1,109 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Aluguel
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            Aluguel
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Aluguel</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-fab class="fab-button" vertical="top" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="novo()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
-  <!-- Default Note -->
-  <ion-note>Default Note</ion-note>
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Aluguel</ion-title>
+        </ion-toolbar>
+    </ion-header>
 
-  <!-- Note Colors -->
-  <ion-note color="primary">Primary Note</ion-note>
-  <ion-note color="secondary">Secondary Note</ion-note>
-  <ion-note color="danger">Danger Note</ion-note>
-  <ion-note color="light">Light Note</ion-note>
-  <ion-note color="dark">Dark Note</ion-note>
+    <ion-list>
+        <ion-list-header>
+            <ion-button
+              shape="round"
+              fill="solid"
+              [color]="filter === 'D' ? 'primary' : 'medium'"
+              (click)="setFilter('D')"
+              size="small">
+              Aberto
+            </ion-button>
+            <ion-button
+              shape="round"
+              fill="solid"
+              [color]="filter === 'Q' ? 'primary' : 'medium'"
+              (click)="setFilter('Q')"
+              size="small">
+              Pago
+            </ion-button>
+            <ion-button
+              shape="round"
+              fill="solid"
+              [color]="filter === 'C' ? 'primary' : 'medium'"
+              (click)="setFilter('C')"
+              size="small">
+              Cancelado
+            </ion-button>
+        </ion-list-header>
 
-  <!-- Notes in a List -->
-  <ion-list>
-    <ion-item>
-      <ion-label>Note (End)</ion-label>
-      <ion-note slot="end">On</ion-note>
-    </ion-item>
+        <ion-item-sliding *ngFor="let l of lancamentos">
+            <ion-item-options side="start">
+                <ion-item-option (click)="cancelar()" color="danger">
+                    <ion-icon slot="start" name="trash"></ion-icon>
+                    Cancelar
+                </ion-item-option>
+            </ion-item-options>
 
-    <ion-item>
-      <ion-note slot="start">Off</ion-note>
-      <ion-label>Note (Start)</ion-label>
-    </ion-item>
-  </ion-list>
+            <ion-item (click)="expandItem(l.id)">
+                <ion-label>
+                    <ion-row>
+                        <ion-col size="8">
+                            <h4>Casa 1 - #8</h4>
+                            <p>{{ '2021-05-19' | date: 'dd/MM/yyyy' }}</p>
+                        </ion-col>
+                        <ion-col class="ion-text-end ion-align-self-center">
+                            <h2>{{ 545454 | number : '1.2' }}</h2>
+                            <ion-note color="danger">Parcial</ion-note>
+                        </ion-col>
+                    </ion-row>
+                </ion-label>
+            </ion-item>
+
+            <!-- <ion-item class="item-accordion" [class.show]="expanded === l.id"
+                *ngIf="l.contaDeConsumo || l.cancelado || !!l.aluguel || !!l.descricao">
+                <div class="item-accordion-content">
+                    <ion-row>
+                        <ion-col>
+                            <div *ngIf="l.contaDeConsumo">
+                                <p>É conta de consumo</p>
+                            </div>
+
+                            <div *ngIf="l.cancelado">
+                                <p>Motivo do cancelamento:</p>
+                                <p [innerHTML]="l.motivoCancelamento | nl2br"></p>
+                            </div>
+
+                            <ng-container *ngIf="!!l.aluguel">
+                                <div>
+                                    <p>Imóvel:</p>
+                                    <p>{{ l.aluguel?.contrato?.imovel?.nome }}</p>
+                                </div>
+
+                                <div>
+                                    <p>Inquilino:</p>
+                                    <p>{{ l.aluguel?.contrato?.inquilino?.nome }}</p>
+                                </div>
+                            </ng-container>
+
+                            <div *ngIf="!!l.descricao">
+                                <p>Descrição:</p>
+                                <p [innerHTML]="l.descricao | nl2br"></p>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-item> -->
+        </ion-item-sliding>
+    </ion-list>
 </ion-content>

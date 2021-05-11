@@ -12,5 +12,8 @@ export interface Aluguel {
     aluguelOrigem?: Aluguel;
     aluguelOrigemId?: string;
     isParcial?: boolean;
-    status?: 'Q' | 'D' | 'C';
+    motivoCancelamento?: string;
+    status?: AluguelStatus;
 }
+
+export type AluguelStatus = 'Q' | 'D' | 'C';
