@@ -20,7 +20,7 @@ export class SeletorImovelComponent implements OnInit, OnDestroy {
     @Input()
     private imovelIdControl: FormControl;
 
-    public imovelVielControl: FormControl = new FormControl(null);
+    public imovelViewControl: FormControl = new FormControl(null);
 
     private destroy$: Subject<void> = new Subject();
 
@@ -61,7 +61,7 @@ export class SeletorImovelComponent implements OnInit, OnDestroy {
             )
             .subscribe(imovel => {
                 this.imovelIdControl.setValue(imovel && imovel.id || null);
-                this.imovelVielControl.setValue(imovel && imovel.nome || null);
+                this.imovelViewControl.setValue(imovel && imovel.nome || null);
             });
     }
 

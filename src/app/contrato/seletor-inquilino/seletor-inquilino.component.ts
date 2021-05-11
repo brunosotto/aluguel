@@ -20,7 +20,7 @@ export class SeletorInquilinoComponent implements OnInit, OnDestroy {
     @Input()
     private inquilinoIdControl: FormControl;
 
-    public inquilinoVielControl: FormControl = new FormControl(null);
+    public inquilinoViewControl: FormControl = new FormControl(null);
 
     private destroy$: Subject<void> = new Subject();
 
@@ -61,7 +61,7 @@ export class SeletorInquilinoComponent implements OnInit, OnDestroy {
             )
             .subscribe(inquilino => {
                 this.inquilinoIdControl.setValue(inquilino && inquilino.id || null);
-                this.inquilinoVielControl.setValue(inquilino && inquilino.nome || null);
+                this.inquilinoViewControl.setValue(inquilino && inquilino.nome || null);
             });
     }
 

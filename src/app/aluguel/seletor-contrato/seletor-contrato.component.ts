@@ -20,7 +20,7 @@ export class SeletorContratoComponent implements OnInit, OnDestroy {
     @Input()
     private contratoIdControl: FormControl;
 
-    public contratoVielControl: FormControl = new FormControl(null);
+    public contratoViewControl: FormControl = new FormControl(null);
 
     private destroy$: Subject<void> = new Subject();
 
@@ -61,7 +61,7 @@ export class SeletorContratoComponent implements OnInit, OnDestroy {
             )
             .subscribe(contrato => {
                 this.contratoIdControl.setValue(contrato && contrato.id || null);
-                this.contratoVielControl.setValue(contrato && (`${contrato.imovel.nome} - ${contrato.inquilino.nome}`) || null);
+                this.contratoViewControl.setValue(contrato && (`${contrato.imovel.nome} - ${contrato.inquilino.nome}`) || null);
             });
     }
 
