@@ -7,6 +7,8 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { AluguelPageRoutingModule } from './aluguel-routing.module';
 import { AluguelModalPage } from './aluguel-modal/aluguel-modal.page';
 import { Nl2BrPipeModule } from 'nl2br-pipe';
+import { SeletorContratoComponent } from './seletor-contrato/seletor-contrato.component';
+import { SeletorContratoModalPage } from './seletor-contrato/seletor-contrato-modal/seletor-contrato-modal.page';
 
 @NgModule({
   imports: [
@@ -20,10 +22,13 @@ import { Nl2BrPipeModule } from 'nl2br-pipe';
   ],
   entryComponents: [
     AluguelModalPage,
+    SeletorContratoModalPage,
   ],
   declarations: [
     AluguelPage,
     AluguelModalPage,
+    SeletorContratoComponent,
+    SeletorContratoModalPage,
   ]
 })
 export class AluguelPageModule {}

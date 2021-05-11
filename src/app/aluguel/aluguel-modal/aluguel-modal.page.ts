@@ -43,6 +43,7 @@ export class AluguelModalPage implements OnInit, OnDestroy {
         this.form = this.fb.group({
             gerar: [null],
             contrato: [null],
+            contratoId: [null],
             competencia: [null],
         });
 
@@ -52,7 +53,10 @@ export class AluguelModalPage implements OnInit, OnDestroy {
     private listenGerar(): void {
         this.form.get('gerar').valueChanges
             .pipe(takeUntil(this.destroy$))
-            .subscribe(_ => this.form.get('contrato').setValue(null));
+            .subscribe(_ => {
+                this.form.get('contrato').setValue(null);
+                this.form.get('contratoId').setValue(null);
+            });
     }
 
 }

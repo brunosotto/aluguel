@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Selecionar contrato
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [formGroup]="form">
+  <ion-list>
+    <ion-radio-group formControlName="id">
+      <ion-item *ngFor="let c of contratos">
+        <ion-label>{{ c.imovel.nome }} - {{ c.inquilino.nome }}</ion-label>
+        <ion-radio [value]="c.id" slot="end"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="medium" (click)=limpar()>Limpar</ion-button>
+      </ion-col>
+
+      <ion-col class="ion-text-center">
+        <ion-button color="medium" (click)=cancelar()>Cancelar</ion-button>
+      </ion-col>
+
+      <ion-col class="ion-text-center">
+        <ion-button (click)=selecionar()>Ok</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
