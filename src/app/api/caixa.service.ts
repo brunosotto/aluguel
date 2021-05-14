@@ -1,3 +1,4 @@
+import { ListAluguelService } from './list-aluguel.service';
 import { Storage } from '@ionic/storage-angular';
 import { Caixa } from '../../model/caixa.model';
 import { Injectable } from '@angular/core';
@@ -11,7 +12,10 @@ const KEY = 'caixa';
 export class CaixaService {
   private store: Storage | null = null;
 
-  constructor(private storage: Storage) {
+  constructor(
+    private storage: Storage,
+    private listAluguelService: ListAluguelService,
+    ) {
   }
 
   async init(): Promise<boolean> {
@@ -24,7 +28,8 @@ export class CaixaService {
       await this.init();
     }
 
-    return await this.store.get(KEY) || [];
+    const lancamentos = await this.store.get(KEY) || [];
+    return await this.agregate(lancamentos);
   }
 
   public async inserir(lancamento: Caixa): Promise<boolean> {
@@ -34,7 +39,7 @@ export class CaixaService {
 
     lancamento.id = uuid();
     const list = await this.listar() || [];
-    list.push(lancamento);
+    list.push(this.sanitize(lancamento));
     await this.store?.set(KEY, list);
     return true;
   }
@@ -46,8 +51,23 @@ export class CaixaService {
 
     const list = await this.listar() || [];
     const index = list.map(l => l.id).indexOf(lancamento.id);
-    list[index] = lancamento;
+    list[index] = this.sanitize(lancamento);
     await this.store?.set(KEY, list);
     return true;
+  }
+
+  private async agregate(lancamentos: Caixa[]): Promise<Caixa[]> {
+    const alugueis = await this.listAluguelService.listar();
+    return lancamentos.map(c => {
+      c.aluguel = alugueis.find(a => c.aluguelId === a.id);
+      return c;
+    });
+  }
+
+  private sanitize(lancamento: Caixa): Caixa {
+    // remove os objetos auxiliares
+    delete lancamento.aluguel;
+
+    return lancamento;
   }
 }

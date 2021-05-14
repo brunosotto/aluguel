@@ -70,9 +70,7 @@ export class AluguelPage {
 
     public quitar(aluguel: Aluguel): void {
         this.presentModalQuitar(aluguel).then(ret => {
-            if (!!ret.data) {
-                this.aluguelPageService.quitarAluguel(aluguel, ret.data);
-            }
+            this.quitarAluguel(aluguel, ret.data);
         });
     }
 
@@ -85,6 +83,15 @@ export class AluguelPage {
     public setFilter(val: AluguelStatus) {
         this.filter = val;
         this.load();
+    }
+
+    private quitarAluguel(aluguel: Aluguel, quitar: QuitarAluguelInput): void {
+        if (!quitar) { return; }
+        this.aluguelPageService
+            .quitarAluguel(aluguel, quitar)
+            .then(() => {
+                this.load();
+            });
     }
 
     private generateAluguel(input: GenerateAluguelInput): void {

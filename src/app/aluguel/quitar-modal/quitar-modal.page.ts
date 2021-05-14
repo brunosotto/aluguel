@@ -45,6 +45,7 @@ export class QuitarModalPage implements OnInit, OnDestroy {
     private buildForm(): void {
         this.form = this.fb.group({
             pagamento: [null],
+            valor: [this.aluguel.valor],
             valorPago: [null],
             obs: [null],
         });
@@ -64,6 +65,7 @@ export class QuitarModalPage implements OnInit, OnDestroy {
 
 export interface QuitarAluguelInput {
     pagamento?: PagamentoType;
+    valor?: number;
     valorPago?: number;
     obs?: string;
 }
