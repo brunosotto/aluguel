@@ -1,4 +1,3 @@
-import { Contrato } from '../../model/contrato.model';
 import { ContratoService } from './contrato.service';
 import { Aluguel } from '../../model/aluguel.model';
 import { Storage } from '@ionic/storage-angular';
@@ -16,6 +15,7 @@ export class ListAluguelService {
     private storage: Storage,
     private contratoService: ContratoService,
   ) {
+    // this.clear();
   }
 
   async init(): Promise<boolean> {
@@ -43,6 +43,15 @@ export class ListAluguelService {
       a.dataPagamento = new Date(a.dataPagamento);
       return a;
     });
+  }
+
+  private async clear(): Promise<void> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    await this.store?.set(KEY, []);
+    return;
   }
 
 }

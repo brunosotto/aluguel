@@ -1,5 +1,5 @@
-import { Storage } from '@ionic/storage-angular';
 import { Imovel } from '../../model/imovel.model';
+import { Storage } from '@ionic/storage-angular';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 
@@ -11,7 +11,10 @@ const KEY = 'imovel';
 export class ImovelService {
   private store: Storage | null = null;
 
-  constructor(private storage: Storage) {
+  constructor(
+    private storage: Storage,
+  ) {
+    // this.clear();
   }
 
   async init(): Promise<boolean> {
@@ -49,6 +52,15 @@ export class ImovelService {
     list[index] = imovel;
     await this.store?.set(KEY, list);
     return true;
+  }
+
+  private async clear(): Promise<void> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    await this.store?.set(KEY, []);
+    return;
   }
 
 }

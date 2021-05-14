@@ -18,6 +18,7 @@ export class ContratoService {
     private inquilinoService: InquilinoService,
     private imovelService: ImovelService
   ) {
+    // this.clear();
   }
 
   async init(): Promise<boolean> {
@@ -104,6 +105,15 @@ export class ContratoService {
     contrato.dataEncerramento = new Date(contrato.dataEncerramento).toISOString();
 
     return contrato;
+  }
+
+  private async clear(): Promise<void> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    await this.store?.set(KEY, []);
+    return;
   }
 
 }

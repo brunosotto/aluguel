@@ -15,7 +15,8 @@ export class CaixaService {
   constructor(
     private storage: Storage,
     private listAluguelService: ListAluguelService,
-    ) {
+  ) {
+    // this.clear();
   }
 
   async init(): Promise<boolean> {
@@ -75,5 +76,14 @@ export class CaixaService {
     lancamento.data = new Date(lancamento.data).toISOString();
 
     return lancamento;
+  }
+
+  private async clear(): Promise<void> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    await this.store?.set(KEY, []);
+    return;
   }
 }
