@@ -83,6 +83,7 @@ export class ContratoModalPage implements OnInit, OnDestroy {
             dataInicio: [contrato.dataInicio || null, Validators.required],
             dataEncerramento: [contrato.dataEncerramento || null],
             diaVencimento: [contrato.diaVencimento || null, [Validators.required, Validators.min(1), Validators.max(31)]],
+            sequencia: [contrato.sequencia || 1, [Validators.required, Validators.min(1)]],
             antecipado: [contrato.antecipado || null],
             obs: [contrato.obs || null],
             obsoleto: [contrato.obsoleto || false],

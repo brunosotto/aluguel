@@ -23,7 +23,13 @@ export class AluguelPageService {
 
     public async generateAluguel(input: GenerateAluguelInput): Promise<boolean> {
         const competencia = this.getCompetencia(input.competencia);
-        return input.gerar === 'T' ? this.gerarTodos(competencia) : this.gerarUm(competencia, input.contrato);
+        return new Promise(resolve => {
+            if (input.gerar === 'T') {
+                this.gerarTodos(competencia, resolve);
+            } else {
+                this.gerarUm(competencia, input.contrato, resolve);
+            }
+        });
     }
 
     public async quitarAluguel(aluguel: Aluguel, quitar: QuitarAluguelInput): Promise<boolean> {
@@ -76,23 +82,44 @@ export class AluguelPageService {
         return await this.aluguelService.insereLote([novo]);
     }
 
-    private async gerarTodos(competencia: number[]): Promise<boolean> {
-        const contratos = await this.contratoService.listarAtivos();
-        const alugueis: Aluguel[] = [];
-        contratos.forEach(async (c) => {
-            alugueis.push(await this.criarAluguel(competencia, c));
+    private gerarTodos(competencia: number[], resolve: Resolver): void {
+        this.contratoService.listarAtivos().then(contratos => {
+            this.gerarCada(competencia, contratos, resolve, []);
         });
-        return await this.aluguelService.insereLote(alugueis);
     }
 
-    private async gerarUm(competencia: number[], contrato: Contrato): Promise<boolean> {
-        const aluguel = await this.criarAluguel(competencia, contrato);
-        return await this.aluguelService.insereLote([aluguel]);
+    private gerarCada(competencia: number[], contratos: Contrato[], resolve: Resolver, alugueis: Aluguel[]): void {
+        if (!!contratos.length) {
+            const contrato = contratos.pop();
+            this.criarAluguel(competencia, contrato).then(aluguel => {
+                alugueis.push(aluguel);
+                this.gerarCada(competencia, contratos, resolve, alugueis);
+            });
+            return;
+        }
+        this.aluguelService.insereLote(alugueis).then(res => {
+            resolve(res);
+        });
+    }
+
+    private gerarUm(competencia: number[], contrato: Contrato, resolve: Resolver): void {
+        this.criarAluguel(competencia, contrato).then(aluguel => {
+            this.aluguelService.insereLote([aluguel]).then(res => {
+                resolve(res);
+            });
+        });
     }
 
     private getCompetencia(competencia: Date): number[] {
         const date = new Date(competencia);
         return [date.getFullYear(), date.getMonth() + 1];
+    }
+
+    private async getSequencia(contrato: Contrato, aluguelOrigem?: Aluguel): Promise<string> {
+        if (aluguelOrigem) {
+            return aluguelOrigem.sequencia;
+        }
+        return await this.contratoService.getSequencia(contrato);
     }
 
     private async criarAluguel(
@@ -101,9 +128,10 @@ export class AluguelPageService {
         aluguelOrigem?: Aluguel,
         valorDiferente?: number,
     ): Promise<Aluguel> {
+        const sequencia = await this.getSequencia(contrato, aluguelOrigem);
         return {
             id: uuid(),
-            sequencia: aluguelOrigem && aluguelOrigem.sequencia || (await this.aluguelService.getSequencia(contrato)),
+            sequencia,
             contrato,
             contratoId: contrato.id,
             vencimento: aluguelOrigem && aluguelOrigem.vencimento || new Date([...competencia, contrato.diaVencimento].join('-')),
@@ -119,3 +147,5 @@ export class AluguelPageService {
     }
 
 }
+
+type Resolver = (value: boolean | PromiseLike<boolean>) => void;

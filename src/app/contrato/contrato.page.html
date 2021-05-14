@@ -96,6 +96,11 @@
                 <p>{{ c.diaVencimento }}</p>
               </div>
 
+              <div *ngIf="c.sequencia">
+                <p>Próxima sequência:</p>
+                <p>{{ c.sequencia }}</p>
+              </div>
+
               <div *ngIf="c.antecipado">
                 <p>É antecipado</p>
               </div>

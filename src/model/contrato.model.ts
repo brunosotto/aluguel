@@ -11,6 +11,7 @@ export interface Contrato {
     dataInicio?: Date;
     dataEncerramento?: Date;
     diaVencimento?: number;
+    sequencia?: string;
     antecipado?: boolean;
     obs?: string;
     obsoleto?: boolean;

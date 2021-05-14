@@ -69,6 +69,17 @@ export class ContratoService {
     return true;
   }
 
+  public async getSequencia(contrato: Contrato): Promise<string> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    const sequencia = contrato.sequencia;
+    contrato.sequencia = (Number(contrato.sequencia)+1).toString();
+    await this.alterar(contrato);
+    return sequencia;
+  }
+
   private async agregate(contratos: Contrato[]): Promise<Contrato[]> {
     const inquilinos = await this.inquilinoService.listar();
     const imoveis = await this.imovelService.listar();

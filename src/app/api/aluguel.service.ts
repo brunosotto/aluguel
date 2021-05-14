@@ -53,17 +53,6 @@ export class AluguelService {
     return true;
   }
 
-  public async getSequencia(contrato: Contrato): Promise<string> {
-    if (!this.store) {
-      await this.init();
-    }
-
-    const alugueis: Aluguel[] = await this.store.get(KEY) || [];
-    alugueis.filter(a => a.contratoId === contrato.id);
-
-    return String(alugueis.length + 1);
-  }
-
   private sanitize(aluguel: Aluguel): Aluguel {
     // remove os objetos auxiliares
     delete aluguel.contrato;
