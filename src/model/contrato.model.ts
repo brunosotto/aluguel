@@ -8,8 +8,8 @@ export interface Contrato {
     inquilino?: Inquilino;
     inquilinoId?: string;
     valor?: number;
-    dataInicio?: Date;
-    dataEncerramento?: Date;
+    dataInicio?: Date | string;
+    dataEncerramento?: Date | string;
     diaVencimento?: number;
     sequencia?: string;
     antecipado?: boolean;

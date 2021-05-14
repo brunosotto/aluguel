@@ -60,6 +60,9 @@ export class CaixaService {
     const alugueis = await this.listAluguelService.listar();
     return lancamentos.map(c => {
       c.aluguel = alugueis.find(a => c.aluguelId === a.id);
+
+      // ajeita os dates
+      c.data = new Date(c.data);
       return c;
     });
   }
@@ -67,6 +70,9 @@ export class CaixaService {
   private sanitize(lancamento: Caixa): Caixa {
     // remove os objetos auxiliares
     delete lancamento.aluguel;
+
+    // ajeita os dates
+    lancamento.data = new Date(lancamento.data).toISOString();
 
     return lancamento;
   }

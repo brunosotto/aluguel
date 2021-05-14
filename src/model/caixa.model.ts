@@ -3,7 +3,7 @@ import { Aluguel } from './aluguel.model';
 export interface Caixa {
     id?: string;
     tipoLancamento?: 'C' | 'D';
-    data?: Date;
+    data?: Date | string;
     valor?: number;
     descricao?: string;
     aluguel?: Aluguel;

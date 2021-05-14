@@ -86,6 +86,10 @@ export class ContratoService {
     return contratos.map(c => {
       c.inquilino = inquilinos.find(i => c.inquilinoId === i.id);
       c.imovel = imoveis.find(i => c.imovelId === i.id);
+
+      // ajeita os dates
+      c.dataInicio = new Date(c.dataInicio);
+      c.dataEncerramento = new Date(c.dataEncerramento);
       return c;
     });
   }
@@ -94,6 +98,10 @@ export class ContratoService {
     // remove os objetos auxiliares
     delete contrato.inquilino;
     delete contrato.imovel;
+
+    // ajeita os dates
+    contrato.dataInicio = new Date(contrato.dataInicio).toISOString();
+    contrato.dataEncerramento = new Date(contrato.dataEncerramento).toISOString();
 
     return contrato;
   }

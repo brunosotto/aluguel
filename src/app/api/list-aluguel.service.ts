@@ -37,6 +37,10 @@ export class ListAluguelService {
     return alugueis.map(a => {
       a.contrato = contratos.find(c => a.contratoId === c.id);
       a.aluguelOrigem = alugueis.find(aa => a.aluguelOrigemId === aa.id);
+
+      // ajeita os dates
+      a.vencimento = new Date(a.vencimento);
+      a.dataPagamento = new Date(a.dataPagamento);
       return a;
     });
   }

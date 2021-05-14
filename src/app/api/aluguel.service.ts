@@ -1,5 +1,4 @@
 import { ListAluguelService } from './list-aluguel.service';
-import { Contrato } from '../../model/contrato.model';
 import { Aluguel } from '../../model/aluguel.model';
 import { Storage } from '@ionic/storage-angular';
 import { Injectable } from '@angular/core';
@@ -57,6 +56,10 @@ export class AluguelService {
     // remove os objetos auxiliares
     delete aluguel.contrato;
     delete aluguel.aluguelOrigem;
+
+    // ajeita os dates
+    aluguel.vencimento = new Date(aluguel.vencimento).toISOString();
+    aluguel.dataPagamento = new Date(aluguel.dataPagamento).toISOString();
 
     return aluguel;
   }
