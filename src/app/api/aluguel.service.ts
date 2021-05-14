@@ -1,3 +1,4 @@
+import { Contrato } from '../../model/contrato.model';
 import { ContratoService } from './contrato.service';
 import { Aluguel } from '../../model/aluguel.model';
 import { Storage } from '@ionic/storage-angular';
@@ -32,15 +33,13 @@ export class AluguelService {
     return await this.agregate(alugueis);
   }
 
-  public async inserir(aluguel: Aluguel): Promise<boolean> {
+  public async insereLote(alugueis: Aluguel[]): Promise<boolean> {
     if (!this.store) {
       await this.init();
     }
 
-    // coloca id
-    aluguel.id = uuid();
     const list = await this.listar() || [];
-    list.push(this.sanitize(aluguel));
+    alugueis.forEach(aluguel => list.push(this.sanitize(aluguel)));
     await this.store?.set(KEY, list);
     return true;
   }
@@ -55,6 +54,17 @@ export class AluguelService {
     list[index] = this.sanitize(aluguel);
     await this.store?.set(KEY, list);
     return true;
+  }
+
+  public async getSequencia(contrato: Contrato): Promise<string> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    const alugueis: Aluguel[] = await this.store.get(KEY) || [];
+    alugueis.filter(a => a.contratoId === contrato.id);
+
+    return String(alugueis.length + 1);
   }
 
   private async agregate(alugueis: Aluguel[]): Promise<Aluguel[]> {

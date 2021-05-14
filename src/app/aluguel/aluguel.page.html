@@ -47,63 +47,83 @@
             </ion-button>
         </ion-list-header>
 
-        <ion-item-sliding *ngFor="let l of lancamentos">
-            <ion-item-options side="start">
-                <ion-item-option (click)="cancelar()" color="danger">
+        <ion-item-sliding *ngFor="let a of alugueis">
+            <ion-item-options *ngIf="filter === 'D'" side="start">
+                <ion-item-option (click)="cancelar(a)" color="danger">
                     <ion-icon slot="start" name="trash"></ion-icon>
                     Cancelar
                 </ion-item-option>
+
+                <ion-item-option (click)="quitar(a)" color="primary">
+                    <ion-icon slot="start" name="cash"></ion-icon>
+                    Quitar
+                </ion-item-option>
             </ion-item-options>
 
-            <ion-item (click)="expandItem(l.id)">
+            <ion-item-options *ngIf="filter === 'C'" side="start">
+              <ion-item-option (click)="restaurar(a)" color="secondary">
+                <ion-icon slot="start" name="star"></ion-icon>
+                Restaurar
+              </ion-item-option>
+            </ion-item-options>
+
+            <ion-item (click)="expandItem(a.id)">
                 <ion-label>
                     <ion-row>
                         <ion-col size="8">
-                            <h4>Casa 1 - #8</h4>
-                            <p>{{ '2021-05-19' | date: 'dd/MM/yyyy' }}</p>
+                            <h4>{{ a.contrato?.imovel?.nome }} - #{{ a.sequencia }}</h4>
+                            <p>{{ a.vencimento | date: 'dd/MM/yyyy' }}</p>
                         </ion-col>
                         <ion-col class="ion-text-end ion-align-self-center">
-                            <h2>{{ 545454 | number : '1.2' }}</h2>
-                            <ion-note color="danger">Parcial</ion-note>
+                            <h2>{{ (filter === 'Q' ? a.valor : valorPago) | number : '1.2' }}</h2>
+                            <ion-note *ngIf="a.isParcial || (!!a.valorPago && a.valorPago < a.valor)" color="danger">Parcial</ion-note>
                         </ion-col>
                     </ion-row>
                 </ion-label>
             </ion-item>
 
-            <!-- <ion-item class="item-accordion" [class.show]="expanded === l.id"
-                *ngIf="l.contaDeConsumo || l.cancelado || !!l.aluguel || !!l.descricao">
+            <ion-item class="item-accordion" [class.show]="expanded === a.id">
                 <div class="item-accordion-content">
                     <ion-row>
                         <ion-col>
-                            <div *ngIf="l.contaDeConsumo">
-                                <p>É conta de consumo</p>
-                            </div>
-
-                            <div *ngIf="l.cancelado">
+                            <div *ngIf="a.status === 'C'">
                                 <p>Motivo do cancelamento:</p>
-                                <p [innerHTML]="l.motivoCancelamento | nl2br"></p>
+                                <p [innerHTML]="a.motivoCancelamento | nl2br"></p>
                             </div>
 
-                            <ng-container *ngIf="!!l.aluguel">
-                                <div>
-                                    <p>Imóvel:</p>
-                                    <p>{{ l.aluguel?.contrato?.imovel?.nome }}</p>
-                                </div>
+                            <div *ngIf="a.contrato">
+                                <p>Inquilino:</p>
+                                <p>{{ a.contrato?.inquilino?.nome }}</p>
+                            </div>
 
-                                <div>
-                                    <p>Inquilino:</p>
-                                    <p>{{ l.aluguel?.contrato?.inquilino?.nome }}</p>
-                                </div>
-                            </ng-container>
+                            <div *ngIf="a.contrato?.antecipado">
+                                <p>É antecipado</p>
+                            </div>
 
-                            <div *ngIf="!!l.descricao">
-                                <p>Descrição:</p>
-                                <p [innerHTML]="l.descricao | nl2br"></p>
+                            <div *ngIf="a.valor">
+                                <p>Valor original</p>
+                                <p>{{ a.valor | number : '1.2' }}</p>
+                            </div>
+
+                            <div *ngIf="a.valorPago">
+                                <p>Valor pago</p>
+                                <p>{{ a.valorPago | number : '1.2' }}</p>
+                            </div>
+
+                            <div *ngIf="a.dataPagamento">
+                                <p>Data de pagamento</p>
+                                <p>{{ a.dataPagamento | date: 'dd/MM/yyyy' }}</p>
+                            </div>
+
+                            <div *ngIf="a.status">
+                                <ion-note color="{{ a.status === 'Q' ? 'primary' : (a.status === 'D' ? 'danger' : 'medium') }}">
+                                    {{ a.status === 'Q' ? 'Pago' : (a.status === 'D' ? 'Aberto' : 'Cancelado') }}
+                                </ion-note>
                             </div>
                         </ion-col>
                     </ion-row>
                 </div>
-            </ion-item> -->
+            </ion-item>
         </ion-item-sliding>
     </ion-list>
 </ion-content>

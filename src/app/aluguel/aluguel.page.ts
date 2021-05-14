@@ -1,7 +1,8 @@
-import { AluguelModalPage } from './aluguel-modal/aluguel-modal.page';
-import { AlertController, ModalController } from '@ionic/angular';
-import { AluguelService } from '../api/aluguel.service';
+import { AluguelModalPage, GenerateAluguelInput } from './aluguel-modal/aluguel-modal.page';
 import { Aluguel, AluguelStatus } from '../../model/aluguel.model';
+import { AlertController, ModalController } from '@ionic/angular';
+import { AluguelPageService } from './aluguel.page.service';
+import { AluguelService } from '../api/aluguel.service';
 import { OverlayEventDetail } from '@ionic/core';
 import { Component } from '@angular/core';
 @Component({
@@ -18,6 +19,7 @@ export class AluguelPage {
     public filter: AluguelStatus = 'D';
 
     constructor(
+        private aluguelPageService: AluguelPageService,
         private modalController: ModalController,
         private alertController: AlertController,
         private service: AluguelService,
@@ -32,15 +34,23 @@ export class AluguelPage {
     public async cancelar(aluguel: Aluguel) {
         const alert = await this.alertController.create({
             cssClass: 'my-custom-class',
-            header: 'Confirma a exclusão?',
+            header: 'Confirma o cancelamento?',
+            inputs: [
+                {
+                    name: 'motivo',
+                    type: 'textarea',
+                    placeholder: 'Motivo'
+                }
+            ],
             buttons: [
                 {
-                    text: 'Cancelar',
+                    text: 'Não',
                     role: 'cancel',
                     cssClass: 'secondary',
                 }, {
                     text: 'Sim',
-                    handler: () => {
+                    handler: ({ motivo }: {motivo: string}) => {
+                        aluguel.motivoCancelamento = motivo;
                         aluguel.status = 'C';
                         this.update(aluguel);
                     }
@@ -51,9 +61,19 @@ export class AluguelPage {
         await alert.present();
     }
 
+    public restaurar(aluguel: Aluguel): void {
+        aluguel.motivoCancelamento = null;
+        aluguel.status = 'D';
+        this.update(aluguel);
+    }
+
+    public quitar(aluguel: Aluguel): void {
+        console.log('quitar');
+    }
+
     public novo(): void {
         this.presentModal().then(ret => {
-            this.update(ret.data);
+            this.generateAluguel(ret.data);
         });
     }
 
@@ -62,15 +82,22 @@ export class AluguelPage {
         this.load();
     }
 
+    private generateAluguel(input: GenerateAluguelInput): void {
+        if (!input) { return; }
+        this.aluguelPageService
+            .generateAluguel(input)
+            .then(() => {
+                this.load();
+            });
+    }
+
     private update(aluguel: Aluguel): void {
         if (!aluguel) { return; }
-        (
-            !!aluguel.id ?
-                this.service.alterar(aluguel) :
-                this.service.inserir(aluguel)
-        ).then(() => {
-            this.load();
-        });
+        this.service
+            .alterar(aluguel)
+            .then(() => {
+                this.load();
+            });
     }
 
     private async load(): Promise<void> {
@@ -81,6 +108,7 @@ export class AluguelPage {
                 if (a.vencimento > b.vencimento) { return 1; }
                 return 0;
             });
+        console.log(this.alugueis);
     }
 
     private async presentModal(): Promise<OverlayEventDetail<Aluguel>> {

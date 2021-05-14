@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Aluguel } from '../../../model/aluguel.model';
 import { ModalController } from '@ionic/angular';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Contrato } from 'src/model/contrato.model';
 
 @Component({
     selector: 'app-aluguel-modal',
@@ -32,7 +32,7 @@ export class AluguelModalPage implements OnInit, OnDestroy {
     }
 
     public salvar(): void {
-        this.modalController.dismiss(this.form.value as Aluguel);
+        this.modalController.dismiss(this.form.value as GenerateAluguelInput);
     }
 
     public cancelar(): void {
@@ -59,4 +59,11 @@ export class AluguelModalPage implements OnInit, OnDestroy {
             });
     }
 
+}
+
+export interface GenerateAluguelInput {
+    gerar?: 'T' | 'U';
+    contrato?: Contrato;
+    contratoId?: string;
+    competencia?: Date;
 }

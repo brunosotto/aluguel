@@ -34,6 +34,16 @@ export class ContratoService {
     return await this.agregate(contratos);
   }
 
+  public async listarAtivos(): Promise<Contrato[]> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    return (await this.listar())
+      .filter(v => !v.obsoleto)
+      .filter(v => !v.dataEncerramento);
+  }
+
   public async inserir(contrato: Contrato): Promise<boolean> {
     if (!this.store) {
       await this.init();
