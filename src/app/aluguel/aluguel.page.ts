@@ -85,6 +85,10 @@ export class AluguelPage {
         this.load();
     }
 
+    public isParcial(a: Aluguel): boolean {
+        return a.isParcial || (!!a.valorPago && a.valorPago < a.valor);
+    }
+
     private quitarAluguel(aluguel: Aluguel, quitar: QuitarAluguelInput): void {
         if (!quitar) { return; }
         this.aluguelPageService

@@ -75,8 +75,9 @@
                             <p>{{ a.vencimento | date: 'dd/MM/yyyy' }}</p>
                         </ion-col>
                         <ion-col class="ion-text-end ion-align-self-center">
-                            <h2>{{ (filter === 'Q' ? a.valor : valorPago) | number : '1.2' }}</h2>
-                            <ion-note *ngIf="a.isParcial || (!!a.valorPago && a.valorPago < a.valor)" color="danger">Parcial</ion-note>
+                            <h2>{{ (filter === 'Q' ? a.valorPago : a.valor) | number : '1.2' }}</h2>
+                            <ion-note *ngIf="isParcial(a)" color="danger">Parcial</ion-note>
+                            <ion-note *ngIf="filter === 'Q' && !isParcial(a)" color="primary">Pago</ion-note>
                         </ion-col>
                     </ion-row>
                 </ion-label>
@@ -100,8 +101,13 @@
                                 <p>É antecipado</p>
                             </div>
 
+                            <div *ngIf="a.contrato?.valor">
+                                <p>Valor contrato</p>
+                                <p>{{ a.contrato?.valor | number : '1.2' }}</p>
+                            </div>
+
                             <div *ngIf="a.valor">
-                                <p>Valor original</p>
+                                <p>Valor {{isParcial(a) ? 'parcela' : 'aluguel'}}</p>
                                 <p>{{ a.valor | number : '1.2' }}</p>
                             </div>
 
