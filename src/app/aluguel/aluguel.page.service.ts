@@ -5,6 +5,7 @@ import { Contrato } from '../../model/contrato.model';
 import { Aluguel } from '../../model/aluguel.model';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
+import { QuitarAluguelInput } from './quitar-modal/quitar-modal.page';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,11 @@ export class AluguelPageService {
     public async generateAluguel(input: GenerateAluguelInput): Promise<boolean> {
         const competencia = this.getCompetencia(input.competencia);
         return input.gerar === 'T' ? this.gerarTodos(competencia) : this.gerarUm(competencia, input.contrato);
+    }
+
+    public async quitarAluguel(aluguel: Aluguel, quitar: QuitarAluguelInput): Promise<boolean> {
+        console.log(aluguel, quitar);
+        return true;
     }
 
     private async gerarTodos(competencia: number[]): Promise<boolean> {

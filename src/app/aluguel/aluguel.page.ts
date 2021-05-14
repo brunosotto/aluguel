@@ -1,4 +1,5 @@
 import { AluguelModalPage, GenerateAluguelInput } from './aluguel-modal/aluguel-modal.page';
+import { QuitarAluguelInput, QuitarModalPage } from './quitar-modal/quitar-modal.page';
 import { Aluguel, AluguelStatus } from '../../model/aluguel.model';
 import { AlertController, ModalController } from '@ionic/angular';
 import { AluguelPageService } from './aluguel.page.service';
@@ -49,7 +50,7 @@ export class AluguelPage {
                     cssClass: 'secondary',
                 }, {
                     text: 'Sim',
-                    handler: ({ motivo }: {motivo: string}) => {
+                    handler: ({ motivo }: { motivo: string }) => {
                         aluguel.motivoCancelamento = motivo;
                         aluguel.status = 'C';
                         this.update(aluguel);
@@ -68,7 +69,11 @@ export class AluguelPage {
     }
 
     public quitar(aluguel: Aluguel): void {
-        console.log('quitar');
+        this.presentModalQuitar(aluguel).then(ret => {
+            if (!!ret.data) {
+                this.aluguelPageService.quitarAluguel(aluguel, ret.data);
+            }
+        });
     }
 
     public novo(): void {
@@ -108,13 +113,22 @@ export class AluguelPage {
                 if (a.vencimento > b.vencimento) { return 1; }
                 return 0;
             });
-        console.log(this.alugueis);
     }
 
     private async presentModal(): Promise<OverlayEventDetail<Aluguel>> {
         const modal = await this.modalController.create({
             component: AluguelModalPage,
             cssClass: 'my-custom-class'
+        });
+        modal.present();
+        return modal.onWillDismiss<Aluguel>();
+    }
+
+    private async presentModalQuitar(aluguel: Aluguel): Promise<OverlayEventDetail<QuitarAluguelInput>> {
+        const modal = await this.modalController.create({
+            component: QuitarModalPage,
+            cssClass: 'my-custom-class',
+            componentProps: { aluguel }
         });
         modal.present();
         return modal.onWillDismiss<Aluguel>();
