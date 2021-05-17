@@ -5,10 +5,10 @@ export interface Aluguel {
     sequencia?: string;
     contrato?: Contrato;
     contratoId?: string;
-    vencimento?: Date | string;
+    vencimento?: string;
     valor?: number;
     valorPago?: number;
-    dataPagamento?: Date | string;
+    dataPagamento?: string;
     aluguelOrigem?: Aluguel;
     aluguelOrigemId?: string;
     isParcial?: boolean;

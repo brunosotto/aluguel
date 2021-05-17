@@ -16,7 +16,6 @@ export class CaixaService {
     private storage: Storage,
     private listAluguelService: ListAluguelService,
   ) {
-    // this.clear();
   }
 
   async init(): Promise<boolean> {
@@ -57,13 +56,19 @@ export class CaixaService {
     return true;
   }
 
+  public async clear(): Promise<void> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    await this.store?.set(KEY, []);
+    return;
+  }
+
   private async agregate(lancamentos: Caixa[]): Promise<Caixa[]> {
     const alugueis = await this.listAluguelService.listar();
     return lancamentos.map(c => {
       c.aluguel = alugueis.find(a => c.aluguelId === a.id);
-
-      // ajeita os dates
-      c.data = new Date(c.data);
       return c;
     });
   }
@@ -72,18 +77,6 @@ export class CaixaService {
     // remove os objetos auxiliares
     delete lancamento.aluguel;
 
-    // ajeita os dates
-    lancamento.data = new Date(lancamento.data).toISOString();
-
     return lancamento;
-  }
-
-  private async clear(): Promise<void> {
-    if (!this.store) {
-      await this.init();
-    }
-
-    await this.store?.set(KEY, []);
-    return;
   }
 }

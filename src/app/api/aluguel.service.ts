@@ -52,14 +52,19 @@ export class AluguelService {
     return true;
   }
 
+  public async clear(): Promise<void> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    await this.store?.set(KEY, []);
+    return;
+  }
+
   private sanitize(aluguel: Aluguel): Aluguel {
     // remove os objetos auxiliares
     delete aluguel.contrato;
     delete aluguel.aluguelOrigem;
-
-    // ajeita os dates
-    aluguel.vencimento = new Date(aluguel.vencimento).toISOString();
-    aluguel.dataPagamento = new Date(aluguel.dataPagamento).toISOString();
 
     return aluguel;
   }

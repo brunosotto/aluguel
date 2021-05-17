@@ -58,7 +58,7 @@ export class AluguelPageService {
     private async registrarCaixa(aluguel: Aluguel, quitar: QuitarAluguelInput): Promise<boolean> {
         const lancamento: Caixa = {
             tipoLancamento: 'C',
-            data: new Date(),
+            data: new Date().toISOString(),
             valor: Number(quitar.valorPago),
             descricao: quitar.obs,
             aluguel,
@@ -72,7 +72,7 @@ export class AluguelPageService {
 
     private async pagarAluguel(aluguel: Aluguel, quitar: QuitarAluguelInput): Promise<boolean> {
         aluguel.valorPago = Number(quitar.valorPago);
-        aluguel.dataPagamento = new Date();
+        aluguel.dataPagamento = new Date().toISOString();
         aluguel.status = 'Q';
         return await this.aluguelService.alterar(aluguel);
     }
@@ -129,12 +129,14 @@ export class AluguelPageService {
         valorDiferente?: number,
     ): Promise<Aluguel> {
         const sequencia = await this.getSequencia(contrato, aluguelOrigem);
+        const vencimento = aluguelOrigem && aluguelOrigem.vencimento ||
+            new Date([...competencia, contrato.diaVencimento].join('-')).toISOString();
         return {
             id: uuid(),
             sequencia,
             contrato,
             contratoId: contrato.id,
-            vencimento: aluguelOrigem && aluguelOrigem.vencimento || new Date([...competencia, contrato.diaVencimento].join('-')),
+            vencimento,
             valor: valorDiferente || contrato.valor,
             valorPago: null,
             dataPagamento: null,

@@ -15,7 +15,6 @@ export class ListAluguelService {
     private storage: Storage,
     private contratoService: ContratoService,
   ) {
-    // this.clear();
   }
 
   async init(): Promise<boolean> {
@@ -37,21 +36,8 @@ export class ListAluguelService {
     return alugueis.map(a => {
       a.contrato = contratos.find(c => a.contratoId === c.id);
       a.aluguelOrigem = alugueis.find(aa => a.aluguelOrigemId === aa.id);
-
-      // ajeita os dates
-      a.vencimento = new Date(a.vencimento);
-      a.dataPagamento = new Date(a.dataPagamento);
       return a;
     });
-  }
-
-  private async clear(): Promise<void> {
-    if (!this.store) {
-      await this.init();
-    }
-
-    await this.store?.set(KEY, []);
-    return;
   }
 
 }

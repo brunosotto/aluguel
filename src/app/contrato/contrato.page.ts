@@ -60,6 +60,7 @@ export class ContratoPage {
 
     public novo(): void {
         this.presentModal().then(ret => {
+            console.log(ret.data.dataInicio);
             this.update(ret.data);
         });
     }

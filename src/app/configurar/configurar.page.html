@@ -13,5 +13,38 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Configurar page"></app-explore-container>
+  <ion-list>
+    <ion-item>
+      <ion-button
+        shape="round"
+        fill="solid"
+        [color]="'primary'"
+        (click)="limparBanco()"
+        size="small">
+        Limpar dados
+      </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-button
+        shape="round"
+        fill="solid"
+        [color]="'primary'"
+        (click)="backup()"
+        size="small">
+        Backup de dados
+      </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-button
+        shape="round"
+        fill="solid"
+        [color]="'primary'"
+        (click)="restore()"
+        size="small">
+        Restaurar dados
+      </ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>

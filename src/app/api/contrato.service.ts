@@ -18,7 +18,6 @@ export class ContratoService {
     private inquilinoService: InquilinoService,
     private imovelService: ImovelService
   ) {
-    // this.clear();
   }
 
   async init(): Promise<boolean> {
@@ -81,16 +80,21 @@ export class ContratoService {
     return sequencia;
   }
 
+  public async clear(): Promise<void> {
+    if (!this.store) {
+      await this.init();
+    }
+
+    await this.store?.set(KEY, []);
+    return;
+  }
+
   private async agregate(contratos: Contrato[]): Promise<Contrato[]> {
     const inquilinos = await this.inquilinoService.listar();
     const imoveis = await this.imovelService.listar();
     return contratos.map(c => {
       c.inquilino = inquilinos.find(i => c.inquilinoId === i.id);
       c.imovel = imoveis.find(i => c.imovelId === i.id);
-
-      // ajeita os dates
-      c.dataInicio = new Date(c.dataInicio);
-      c.dataEncerramento = new Date(c.dataEncerramento);
       return c;
     });
   }
@@ -100,20 +104,7 @@ export class ContratoService {
     delete contrato.inquilino;
     delete contrato.imovel;
 
-    // ajeita os dates
-    contrato.dataInicio = new Date(contrato.dataInicio).toISOString();
-    contrato.dataEncerramento = new Date(contrato.dataEncerramento).toISOString();
-
     return contrato;
-  }
-
-  private async clear(): Promise<void> {
-    if (!this.store) {
-      await this.init();
-    }
-
-    await this.store?.set(KEY, []);
-    return;
   }
 
 }

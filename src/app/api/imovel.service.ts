@@ -14,7 +14,6 @@ export class ImovelService {
   constructor(
     private storage: Storage,
   ) {
-    // this.clear();
   }
 
   async init(): Promise<boolean> {
@@ -54,7 +53,7 @@ export class ImovelService {
     return true;
   }
 
-  private async clear(): Promise<void> {
+  public async clear(): Promise<void> {
     if (!this.store) {
       await this.init();
     }
