@@ -1,9 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, OnDestroy } from '@angular/core';
 import { Caixa } from '../../../model/caixa.model';
+import { ModalController } from '@ionic/angular';
+import { takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-caixa-modal',
@@ -40,7 +41,7 @@ export class CaixaModalPage implements OnDestroy {
     this.form = this.fb.group({
       id: [null],
       tipoLancamento: [null],
-      data: [new Date()],
+      data: [moment().toISOString()],
       valor: [null],
       descricao: [null],
       aluguel: [null],

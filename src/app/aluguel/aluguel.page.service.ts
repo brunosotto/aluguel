@@ -8,6 +8,7 @@ import { Aluguel } from '../../model/aluguel.model';
 import { Caixa } from '../../model/caixa.model';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
+import * as moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -58,7 +59,7 @@ export class AluguelPageService {
     private async registrarCaixa(aluguel: Aluguel, quitar: QuitarAluguelInput): Promise<boolean> {
         const lancamento: Caixa = {
             tipoLancamento: 'C',
-            data: new Date().toISOString(),
+            data: moment().toISOString(),
             valor: Number(quitar.valorPago),
             descricao: quitar.obs,
             aluguel,
@@ -72,7 +73,7 @@ export class AluguelPageService {
 
     private async pagarAluguel(aluguel: Aluguel, quitar: QuitarAluguelInput): Promise<boolean> {
         aluguel.valorPago = Number(quitar.valorPago);
-        aluguel.dataPagamento = new Date().toISOString();
+        aluguel.dataPagamento = moment().toISOString();
         aluguel.status = 'Q';
         return await this.aluguelService.alterar(aluguel);
     }
@@ -111,8 +112,8 @@ export class AluguelPageService {
     }
 
     private getCompetencia(competencia: Date): number[] {
-        const date = new Date(competencia);
-        return [date.getFullYear(), date.getMonth() + 1];
+        const date = moment(competencia);
+        return [date.year(), date.month() + 1];
     }
 
     private async getSequencia(contrato: Contrato, aluguelOrigem?: Aluguel): Promise<string> {
@@ -130,7 +131,7 @@ export class AluguelPageService {
     ): Promise<Aluguel> {
         const sequencia = await this.getSequencia(contrato, aluguelOrigem);
         const vencimento = aluguelOrigem && aluguelOrigem.vencimento ||
-            new Date([...competencia, contrato.diaVencimento].join('-')).toISOString();
+            moment([...competencia, contrato.diaVencimento].join('-')).toISOString();
         return {
             id: uuid(),
             sequencia,

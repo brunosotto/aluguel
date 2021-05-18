@@ -53,6 +53,7 @@ export class ContratoPage {
     }
 
     public alterar(contrato: Contrato): void {
+        console.log(contrato.dataInicio);
         this.presentModal(contrato).then(ret => {
             this.update(ret.data);
         });

@@ -3,6 +3,7 @@ import { Contrato } from '../../../model/contrato.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { DatetimeOptions } from '@ionic/core';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -63,7 +64,8 @@ export class ContratoModalPage implements OnInit, OnDestroy {
                     text: 'Aplicar',
                     role: 'done',
                     handler: (ret: RetDatePicker) => {
-                        const date = new Date(`${ret.year.text}-${ret.month.text}-${ret.day.text}`);
+                        const text = `${ret.year.text}-${ret.month.text}-${ret.day.text}`;
+                        const date = moment(text).toISOString();
                         this.form.get(formControlName).setValue(date);
                     }
                 },
