@@ -1,3 +1,4 @@
+import { PagamentoType, QuitarAluguel } from '../../../model/quitar-aluguel.model';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Aluguel } from '../../../model/aluguel.model';
@@ -35,7 +36,7 @@ export class QuitarModalPage implements OnInit, OnDestroy {
     }
 
     public salvar(): void {
-        this.modalController.dismiss(this.form.value as QuitarAluguelInput);
+        this.modalController.dismiss(this.form.value as QuitarAluguel);
     }
 
     public cancelar(): void {
@@ -62,12 +63,3 @@ export class QuitarModalPage implements OnInit, OnDestroy {
     }
 
 }
-
-export interface QuitarAluguelInput {
-    pagamento?: PagamentoType;
-    valor?: number;
-    valorPago?: number;
-    obs?: string;
-}
-
-type PagamentoType = 'T' | 'P';

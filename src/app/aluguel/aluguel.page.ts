@@ -1,7 +1,8 @@
 import { AluguelModalPage, GenerateAluguelInput } from './aluguel-modal/aluguel-modal.page';
-import { QuitarAluguelInput, QuitarModalPage } from './quitar-modal/quitar-modal.page';
+import { QuitarModalPage } from './quitar-modal/quitar-modal.page';
 import { Aluguel, AluguelStatus } from '../../model/aluguel.model';
 import { AlertController, ModalController } from '@ionic/angular';
+import { QuitarAluguel } from '../../model/quitar-aluguel.model';
 import { AluguelPageService } from './aluguel.page.service';
 import { AluguelService } from '../api/aluguel.service';
 import { OverlayEventDetail } from '@ionic/core';
@@ -90,7 +91,7 @@ export class AluguelPage {
         return a.isParcial || (!!a.valorPago && a.valorPago < a.valor);
     }
 
-    private quitarAluguel(aluguel: Aluguel, quitar: QuitarAluguelInput): void {
+    private quitarAluguel(aluguel: Aluguel, quitar: QuitarAluguel): void {
         if (!quitar) { return; }
         this.aluguelPageService
             .quitarAluguel(aluguel, quitar)
@@ -136,7 +137,7 @@ export class AluguelPage {
         return modal.onWillDismiss<Aluguel>();
     }
 
-    private async presentModalQuitar(aluguel: Aluguel): Promise<OverlayEventDetail<QuitarAluguelInput>> {
+    private async presentModalQuitar(aluguel: Aluguel): Promise<OverlayEventDetail<QuitarAluguel>> {
         const modal = await this.modalController.create({
             component: QuitarModalPage,
             cssClass: 'my-custom-class',
