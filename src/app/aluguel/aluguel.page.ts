@@ -51,6 +51,7 @@ export class AluguelPage {
                 }, {
                     text: 'Sim',
                     handler: ({ motivo }: { motivo: string }) => {
+                        if (!motivo) { return; }
                         aluguel.motivoCancelamento = motivo;
                         aluguel.status = 'C';
                         this.update(aluguel);

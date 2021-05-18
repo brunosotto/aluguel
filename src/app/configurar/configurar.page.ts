@@ -26,14 +26,16 @@ export class ConfigurarPage {
     public async limparBanco() {
         const alert = await this.alertController.create({
             cssClass: 'my-custom-class',
-            header: 'Confirma a exclusão?',
+            header: 'Confirma a limpeza e remoção de todos os dados?',
+            message: 'Isso é irreversível!',
+            animated: true,
             buttons: [
                 {
                     text: 'Cancelar',
                     role: 'cancel',
                     cssClass: 'secondary',
                 }, {
-                    text: 'Sim',
+                    text: 'Limpar',
                     handler: () => {
                         this.clearAll();
                     }

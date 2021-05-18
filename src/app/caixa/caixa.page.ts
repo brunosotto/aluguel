@@ -47,7 +47,8 @@ export class CaixaPage {
                     cssClass: 'secondary',
                 }, {
                     text: 'Ok',
-                    handler: ({ motivo }: {motivo: string}) => {
+                    handler: ({ motivo }: { motivo: string }) => {
+                        if (!motivo) { return; }
                         lancamento.motivoCancelamento = motivo;
                         lancamento.cancelado = true;
                         this.update(lancamento);
