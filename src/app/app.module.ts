@@ -9,6 +9,9 @@ import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { Nl2BrPipeModule } from 'nl2br-pipe';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 registerLocaleData(localePt, 'pt');
 @NgModule({
@@ -22,6 +25,9 @@ registerLocaleData(localePt, 'pt');
     Nl2BrPipeModule,
   ],
   providers: [
+    PDFGenerator,
+    SocialSharing,
+    File,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,
