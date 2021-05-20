@@ -76,6 +76,10 @@ export class AluguelPage {
         });
     }
 
+    public reemitir(aluguel: Aluguel): void {
+        this.aluguelPageService.reemitir(aluguel);
+    }
+
     public novo(): void {
         this.presentModal().then(ret => {
             this.generateAluguel(ret.data);
@@ -122,8 +126,14 @@ export class AluguelPage {
         this.alugueis = (await this.service.listar())
             .filter(v => v.status === this.filter)
             .sort((a, b) => {
-                if (a.vencimento < b.vencimento) { return -1; }
-                if (a.vencimento > b.vencimento) { return 1; }
+                if (this.filter === 'D' || this.filter === 'C') {
+                    if (a.vencimento < b.vencimento) { return -1; }
+                    if (a.vencimento > b.vencimento) { return 1; }
+                }
+                if (this.filter === 'Q') {
+                    if (a.dataPagamento < b.dataPagamento) { return 1; }
+                    if (a.dataPagamento > b.dataPagamento) { return -1; }
+                }
                 return 0;
             });
     }

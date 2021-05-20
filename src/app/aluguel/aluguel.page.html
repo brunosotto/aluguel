@@ -60,6 +60,13 @@
                 </ion-item-option>
             </ion-item-options>
 
+            <ion-item-options *ngIf="filter === 'Q'" side="start">
+                <ion-item-option (click)="reemitir(a)" color="primary">
+                    <ion-icon slot="start" name="receipt"></ion-icon>
+                    Re-emitir recibo
+                </ion-item-option>
+            </ion-item-options>
+
             <ion-item-options *ngIf="filter === 'C'" side="start">
               <ion-item-option (click)="restaurar(a)" color="secondary">
                 <ion-icon slot="start" name="star"></ion-icon>

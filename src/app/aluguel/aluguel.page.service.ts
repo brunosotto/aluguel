@@ -36,29 +36,38 @@ export class AluguelPageService {
     }
 
     public async quitarAluguel(aluguel: Aluguel, quitar: QuitarAluguel): Promise<boolean> {
-        const valorPago = Number(quitar.valorPago);
-        const valor = Number(quitar.valor);
-        const isParcial = valorPago < valor;
+        aluguel.valorPago = Number(quitar.valorPago);
+        aluguel.dataPagamento = moment().toISOString();
+        aluguel.status = 'Q';
+        const isParcial = aluguel.isParcial || aluguel.valorPago < aluguel.valor;
+        const hasResidual = aluguel.valorPago < aluguel.valor;
 
-        if (isParcial) {
-            await this.criarResidual({...aluguel}, valor - valorPago);
+        if (hasResidual) {
+            await this.criarResidual({ ...aluguel }, aluguel.valor - aluguel.valorPago);
         }
 
-        await this.pagarAluguel({...aluguel}, quitar);
+        await this.aluguelService.alterar({ ...aluguel });
 
-        await this.registrarCaixa({...aluguel}, quitar);
+        await this.registrarCaixa({ ...aluguel }, quitar.obs);
 
-        await this.reciboService.gerar({...aluguel}, quitar);
+        await this.reciboService.gerar({ ...aluguel }, isParcial);
 
         return true;
     }
 
-    private async registrarCaixa(aluguel: Aluguel, quitar: QuitarAluguel): Promise<boolean> {
+    public async reemitir(aluguel: Aluguel): Promise<boolean> {
+        const isParcial = aluguel.isParcial || aluguel.valorPago < aluguel.valor;
+        await this.reciboService.gerar({ ...aluguel }, isParcial);
+
+        return true;
+    }
+
+    private async registrarCaixa(aluguel: Aluguel, descricao: string): Promise<boolean> {
         const lancamento: Caixa = {
             tipoLancamento: 'C',
             data: moment().toISOString(),
-            valor: Number(quitar.valorPago),
-            descricao: quitar.obs,
+            valor: Number(aluguel.valorPago),
+            descricao,
             aluguel,
             aluguelId: aluguel.id,
             contaDeConsumo: false,
@@ -66,13 +75,6 @@ export class AluguelPageService {
             motivoCancelamento: null,
         };
         return await this.caixaService.inserir(lancamento);
-    }
-
-    private async pagarAluguel(aluguel: Aluguel, quitar: QuitarAluguel): Promise<boolean> {
-        aluguel.valorPago = Number(quitar.valorPago);
-        aluguel.dataPagamento = moment().toISOString();
-        aluguel.status = 'Q';
-        return await this.aluguelService.alterar(aluguel);
     }
 
     private async criarResidual(aluguel: Aluguel, valor: number): Promise<boolean> {
