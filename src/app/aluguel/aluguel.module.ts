@@ -1,5 +1,4 @@
 import { SeletorContratoModalPage } from './seletor-contrato/seletor-contrato-modal/seletor-contrato-modal.page';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { SeletorContratoComponent } from './seletor-contrato/seletor-contrato.component';
 import { AluguelModalPage } from './aluguel-modal/aluguel-modal.page';
 import { AluguelPageRoutingModule } from './aluguel-routing.module';
@@ -17,7 +16,6 @@ import { NgModule } from '@angular/core';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ExploreContainerComponentModule,
     AluguelPageRoutingModule,
     Nl2BrPipeModule,
   ],
