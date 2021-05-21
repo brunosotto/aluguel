@@ -18,10 +18,10 @@
       [inquilinoIdControl]="form.get('inquilinoId')">
     </app-seletor-inquilino>
 
-    <ion-item>
-      <ion-label position="floating">Valor</ion-label>
-      <ion-input type="text" formControlName="valor"></ion-input>
-    </ion-item>
+    <app-input-money
+      label="Valor"
+      formControlName="valor">
+    </app-input-money>
 
     <ion-item>
       <ion-label position="floating">Data de início</ion-label>

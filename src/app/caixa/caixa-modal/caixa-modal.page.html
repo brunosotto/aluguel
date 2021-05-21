@@ -29,10 +29,10 @@
       <ion-checkbox slot="end" formControlName="contaDeConsumo"></ion-checkbox>
     </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Valor</ion-label>
-      <ion-input type="number" formControlName="valor"></ion-input>
-    </ion-item>
+    <app-input-money
+      label="Valor"
+      formControlName="valor">
+    </app-input-money>
 
     <ion-item>
       <ion-label position="floating">Descrição</ion-label>

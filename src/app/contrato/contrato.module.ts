@@ -11,6 +11,7 @@ import { SeletorImovelModalPage } from './seletor-imovel/seletor-imovel-modal/se
 import { SeletorInquilinoComponent } from './seletor-inquilino/seletor-inquilino.component';
 import { SeletorInquilinoModalPage } from './seletor-inquilino/seletor-inquilino-modal/seletor-inquilino-modal.page';
 import { Nl2BrPipeModule } from 'nl2br-pipe';
+import { InputMoneyModule } from '../input-money/input-money.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { Nl2BrPipeModule } from 'nl2br-pipe';
     RouterModule.forChild([{ path: '', component: ContratoPage }]),
     ContratoPageRoutingModule,
     Nl2BrPipeModule,
+    InputMoneyModule,
   ],
   entryComponents: [
     ContratoModalPage,

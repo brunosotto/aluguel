@@ -24,15 +24,17 @@
       </ion-item>
     </ion-radio-group>
 
-    <ion-item>
-      <ion-label position="floating">Valor</ion-label>
-      <ion-input type="number" [readonly]="true" formControlName="valor"></ion-input>
-    </ion-item>
+    <app-input-money
+      label="Valor"
+      [readonly]="true"
+      formControlName="valor">
+    </app-input-money>
 
-    <ion-item>
-      <ion-label position="floating">Valor pago</ion-label>
-      <ion-input type="number" [readonly]="form.get('pagamento').value === 'T'" formControlName="valorPago"></ion-input>
-    </ion-item>
+    <app-input-money
+      label="Valor pago"
+      [readonly]="form.get('pagamento').value === 'T'"
+      formControlName="valorPago">
+    </app-input-money>
 
     <ion-item>
       <ion-label position="floating">Observações</ion-label>
