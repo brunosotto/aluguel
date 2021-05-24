@@ -82,10 +82,19 @@ export class AluguelPageService {
         return await this.aluguelService.insereLote([novo]);
     }
 
-    private gerarTodos(competencia: number[], resolve: Resolver): void {
-        this.contratoService.listarAtivos().then(contratos => {
-            this.gerarCada(competencia, contratos, resolve, []);
-        });
+    private async gerarTodos(competencia: number[], resolve: Resolver): Promise<void> {
+        const contratos = await this.contratoService.listarAtivos();
+        const jaGerados = await this.contratosJaGerados(competencia);
+        const filtrado = contratos.filter(c => !jaGerados.some(jg => jg.id === c.id));
+        this.gerarCada(competencia, filtrado, resolve, []);
+    }
+
+    private async contratosJaGerados(competencia: number[]): Promise<Contrato[]> {
+        const alugueis = await this.aluguelService.listar();
+        const ativos = alugueis.filter(a => a.status !== 'C');
+        const comp = competencia.map(c => c.toString()).map(c => c.length < 2 ? `0${c}` : c).join('-');
+        const daCompetencia = ativos.filter(a => a.vencimento && a.vencimento.indexOf(comp) === 0);
+        return daCompetencia.map(a => a.contrato);
     }
 
     private gerarCada(competencia: number[], contratos: Contrato[], resolve: Resolver, alugueis: Aluguel[]): void {
