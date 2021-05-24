@@ -1,5 +1,6 @@
 import { ConfigurarPageRoutingModule } from './configurar-routing.module';
 import { RestoreModalPage } from './retore-modal/restore-modal.page';
+import { BackupModalPage } from './backup-modal/backup-modal.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfigurarPage } from './configurar.page';
 import { CommonModule } from '@angular/common';
@@ -17,10 +18,12 @@ import { NgModule } from '@angular/core';
     ConfigurarPageRoutingModule,
   ],
   entryComponents: [
+    BackupModalPage,
     RestoreModalPage,
   ],
   declarations: [
     ConfigurarPage,
+    BackupModalPage,
     RestoreModalPage,
   ]
 })

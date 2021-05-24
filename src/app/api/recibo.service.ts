@@ -3,8 +3,8 @@ import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
 import { Aluguel } from '../../model/aluguel.model';
 import { File } from '@ionic-native/file/ngx';
 import { Injectable } from '@angular/core';
-import moment from 'moment';
 import extenso from 'extenso';
+import moment from 'moment';
 @Injectable({
     providedIn: 'root'
 })
@@ -14,9 +14,9 @@ export class ReciboService {
     private readonly folderPath = this.file.cacheDirectory;
 
     constructor(
-        private socialSharing: SocialSharing,
         private file: File,
         private pdfGenerator: PDFGenerator,
+        private socialSharing: SocialSharing,
     ) {
     }
 

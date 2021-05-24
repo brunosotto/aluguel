@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Realizar Backup
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item>
+      <p class="ion-text-justify">Ao pressionar o botão backup o aplicativo copiará todos os dados armazenados local. Um dialogo de compartilhamento será exibido e você poderá enviar o backup realizado para um e-mail ou armazenamento em núvem.</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="medium" (click)=cancelar()>Cancelar</ion-button>
+      </ion-col>
+
+      <ion-col class="ion-text-center">
+        <ion-button (click)=backup()>Backup</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

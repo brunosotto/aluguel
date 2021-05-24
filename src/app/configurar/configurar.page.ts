@@ -7,6 +7,7 @@ import { CaixaService } from '../api/caixa.service';
 import { OverlayEventDetail } from '@ionic/core';
 import { Component } from '@angular/core';
 import { RestoreModalPage } from './retore-modal/restore-modal.page';
+import { BackupModalPage } from './backup-modal/backup-modal.page';
 
 @Component({
     selector: 'app-configurar',
@@ -49,25 +50,28 @@ export class ConfigurarPage {
         await alert.present();
     }
 
-    public backup(): void {
-        console.log('backup');
-    }
-
-    public restore(): void {
-        this.presentModalRestore().then(ret => {
+    public async backup(): Promise<void> {
+        const modal = await this.modalController.create({
+            component: BackupModalPage,
+            cssClass: 'my-custom-class',
+            componentProps: { }
+        });
+        modal.present();
+        modal.onWillDismiss<undefined>().then(ret => {
             console.log('após restore::', ret);
         });
     }
 
-    // TODO: trocar o any
-    private async presentModalRestore(): Promise<OverlayEventDetail<any>> {
+    public async restore(): Promise<void> {
         const modal = await this.modalController.create({
             component: RestoreModalPage,
             cssClass: 'my-custom-class',
             componentProps: { }
         });
         modal.present();
-        return modal.onWillDismiss<any>();
+        modal.onWillDismiss<undefined>().then(ret => {
+            console.log('após restore::', ret);
+        });
     }
 
     private clearAll(): void {
