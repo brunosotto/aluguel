@@ -1,10 +1,11 @@
 import { ListAluguelService } from './list-aluguel.service';
+import { TABELAS } from '../configurar/constants';
 import { Storage } from '@ionic/storage-angular';
 import { Caixa } from '../../model/caixa.model';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 
-const KEY = 'caixa';
+const KEY = TABELAS.CAIXA;
 
 @Injectable({
   providedIn: 'root'

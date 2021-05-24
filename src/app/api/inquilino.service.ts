@@ -1,9 +1,10 @@
 import { Inquilino } from '../../model/inquilino.model';
+import { TABELAS } from '../configurar/constants';
 import { Storage } from '@ionic/storage-angular';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 
-const KEY = 'inquilino';
+const KEY = TABELAS.INQUILINO;
 
 @Injectable({
   providedIn: 'root'

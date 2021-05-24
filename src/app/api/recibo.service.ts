@@ -1,10 +1,9 @@
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { QuitarAluguel } from '../../model/quitar-aluguel.model';
 import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
 import { Aluguel } from '../../model/aluguel.model';
 import { File } from '@ionic-native/file/ngx';
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import extenso from 'extenso';
 @Injectable({
     providedIn: 'root'

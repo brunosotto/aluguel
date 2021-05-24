@@ -1,10 +1,12 @@
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { InquilinoService } from '../api/inquilino.service';
 import { ContratoService } from '../api/contrato.service';
 import { AluguelService } from '../api/aluguel.service';
 import { ImovelService } from '../api/imovel.service';
 import { CaixaService } from '../api/caixa.service';
-import { AlertController, ToastController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
 import { Component } from '@angular/core';
+import { RestoreModalPage } from './retore-modal/restore-modal.page';
 
 @Component({
     selector: 'app-configurar',
@@ -18,6 +20,7 @@ export class ConfigurarPage {
         private alertController: AlertController,
         private toastController: ToastController,
         private contratoService: ContratoService,
+        private modalController: ModalController,
         private aluguelService: AluguelService,
         private imovelService: ImovelService,
         private caixaService: CaixaService,
@@ -51,7 +54,20 @@ export class ConfigurarPage {
     }
 
     public restore(): void {
-        console.log('restore');
+        this.presentModalRestore().then(ret => {
+            console.log('após restore::', ret);
+        });
+    }
+
+    // TODO: trocar o any
+    private async presentModalRestore(): Promise<OverlayEventDetail<any>> {
+        const modal = await this.modalController.create({
+            component: RestoreModalPage,
+            cssClass: 'my-custom-class',
+            componentProps: { }
+        });
+        modal.present();
+        return modal.onWillDismiss<any>();
     }
 
     private clearAll(): void {

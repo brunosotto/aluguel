@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Restaurar Backup
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [formGroup]="form">
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>Arquivo de dados</ion-label>
+      <ion-input type="file" formControlName="arquivo" accept="application/JSON" (change)="changeListener($event)"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="medium" (click)=cancelar()>Cancelar</ion-button>
+      </ion-col>
+
+      <ion-col class="ion-text-center">
+        <ion-button (click)=restaurar()>Restaurar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

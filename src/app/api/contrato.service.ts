@@ -1,12 +1,13 @@
 import { InquilinoService } from './inquilino.service';
 import { Contrato } from '../../model/contrato.model';
+import { TABELAS } from '../configurar/constants';
 import { Storage } from '@ionic/storage-angular';
 import { ImovelService } from './imovel.service';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
-import * as moment from 'moment';
+import moment from 'moment';
 
-const KEY = 'contrato';
+const KEY = TABELAS.CONTRATO;
 
 @Injectable({
     providedIn: 'root'

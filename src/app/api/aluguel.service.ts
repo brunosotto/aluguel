@@ -1,9 +1,10 @@
 import { ListAluguelService } from './list-aluguel.service';
 import { Aluguel } from '../../model/aluguel.model';
+import { TABELAS } from '../configurar/constants';
 import { Storage } from '@ionic/storage-angular';
 import { Injectable } from '@angular/core';
 
-const KEY = 'aluguel';
+const KEY = TABELAS.ALUGUEL;
 
 @Injectable({
   providedIn: 'root'
