@@ -1,5 +1,5 @@
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { InquilinoModalPage } from './inquilino-modal/inquilino-modal.page';
-import { AlertController, ModalController } from '@ionic/angular';
 import { InquilinoService } from '../api/inquilino.service';
 import { Inquilino } from '../../model/inquilino.model';
 import { OverlayEventDetail } from '@ionic/core';
@@ -19,6 +19,7 @@ export class InquilinoPage {
     constructor(
         private modalController: ModalController,
         private alertController: AlertController,
+        private toastController: ToastController,
         private service: InquilinoService,
     ) {
         this.load();
@@ -41,7 +42,7 @@ export class InquilinoPage {
                     text: 'Sim',
                     handler: () => {
                         inquilino.obsoleto = true;
-                        this.update(inquilino);
+                        this.update(inquilino, 'Excluído');
                     }
                 }
             ]
@@ -62,13 +63,14 @@ export class InquilinoPage {
         });
     }
 
-    private update(inquilino: Inquilino): void {
+    private update(inquilino: Inquilino, msg?: string): void {
         if (!inquilino) { return; }
         (
             !!inquilino.id ?
                 this.service.alterar(inquilino) :
                 this.service.inserir(inquilino)
         ).then(() => {
+            this.presentToast(`${msg || 'Salvo'} com sucesso!`);
             this.load();
         });
     }
@@ -91,6 +93,14 @@ export class InquilinoPage {
         });
         modal.present();
         return modal.onWillDismiss<Inquilino>();
+    }
+
+    private async presentToast(message: string) {
+        const toast = await this.toastController.create({
+            message,
+            duration: 2000
+        });
+        toast.present();
     }
 
 }

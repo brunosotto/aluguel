@@ -1,7 +1,7 @@
 import { AluguelModalPage, GenerateAluguelInput } from './aluguel-modal/aluguel-modal.page';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { QuitarModalPage } from './quitar-modal/quitar-modal.page';
 import { Aluguel, AluguelStatus } from '../../model/aluguel.model';
-import { AlertController, ModalController } from '@ionic/angular';
 import { QuitarAluguel } from '../../model/quitar-aluguel.model';
 import { AluguelPageService } from './aluguel.page.service';
 import { AluguelService } from '../api/aluguel.service';
@@ -24,6 +24,7 @@ export class AluguelPage {
         private aluguelPageService: AluguelPageService,
         private modalController: ModalController,
         private alertController: AlertController,
+        private toastController: ToastController,
         private service: AluguelService,
     ) {
         this.load();
@@ -55,7 +56,7 @@ export class AluguelPage {
                         if (!motivo) { return; }
                         aluguel.motivoCancelamento = motivo;
                         aluguel.status = 'C';
-                        this.update(aluguel);
+                        this.update(aluguel, 'Cancelado');
                     }
                 }
             ]
@@ -67,7 +68,7 @@ export class AluguelPage {
     public restaurar(aluguel: Aluguel): void {
         aluguel.motivoCancelamento = null;
         aluguel.status = 'D';
-        this.update(aluguel);
+        this.update(aluguel, 'Restaurado');
     }
 
     public quitar(aluguel: Aluguel): void {
@@ -109,15 +110,17 @@ export class AluguelPage {
         this.aluguelPageService
             .generateAluguel(input)
             .then(() => {
+                this.presentToast('Gerado com sucesso!');
                 this.load();
             });
     }
 
-    private update(aluguel: Aluguel): void {
+    private update(aluguel: Aluguel, msg?: string): void {
         if (!aluguel) { return; }
         this.service
             .alterar(aluguel)
             .then(() => {
+                this.presentToast(`${msg || 'Salvo'} com sucesso!`);
                 this.load();
             });
     }
@@ -155,6 +158,14 @@ export class AluguelPage {
         });
         modal.present();
         return modal.onWillDismiss<Aluguel>();
+    }
+
+    private async presentToast(message: string) {
+        const toast = await this.toastController.create({
+            message,
+            duration: 2000
+        });
+        toast.present();
     }
 
 }

@@ -1,5 +1,5 @@
 
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { CaixaModalPage } from './caixa-modal/caixa-modal.page';
 import { CaixaService } from '../api/caixa.service';
 import { OverlayEventDetail } from '@ionic/core';
@@ -20,6 +20,7 @@ export class CaixaPage {
     constructor(
         private modalController: ModalController,
         private alertController: AlertController,
+        private toastController: ToastController,
         private service: CaixaService,
     ) {
         this.load();
@@ -51,7 +52,7 @@ export class CaixaPage {
                         if (!motivo) { return; }
                         lancamento.motivoCancelamento = motivo;
                         lancamento.cancelado = true;
-                        this.update(lancamento);
+                        this.update(lancamento, 'Cancelado');
                     }
                 }
             ]
@@ -63,7 +64,7 @@ export class CaixaPage {
     public restaurar(lancamento: Caixa): void {
         lancamento.motivoCancelamento = null;
         lancamento.cancelado = false;
-        this.update(lancamento);
+        this.update(lancamento, 'Restaurado');
     }
 
     public novo(): void {
@@ -72,13 +73,14 @@ export class CaixaPage {
         });
     }
 
-    private update(lancamento: Caixa): void {
+    private update(lancamento: Caixa, msg?: string): void {
         if (!lancamento) { return; }
         (
             !!lancamento.id ?
                 this.service.alterar(lancamento) :
                 this.service.inserir(lancamento)
         ).then(() => {
+            this.presentToast(`${msg || 'Salvo'} com sucesso!`);
             this.load();
         });
     }
@@ -94,6 +96,14 @@ export class CaixaPage {
         });
         modal.present();
         return modal.onWillDismiss<Caixa>();
+    }
+
+    private async presentToast(message: string) {
+        const toast = await this.toastController.create({
+            message,
+            duration: 2000
+        });
+        toast.present();
     }
 
 }

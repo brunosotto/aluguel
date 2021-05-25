@@ -1,5 +1,5 @@
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { ContratoModalPage } from './contrato-modal/contrato-modal.page';
-import { AlertController, ModalController } from '@ionic/angular';
 import { ContratoService } from '../api/contrato.service';
 import { Contrato } from '../../model/contrato.model';
 import { OverlayEventDetail } from '@ionic/core';
@@ -21,6 +21,7 @@ export class ContratoPage {
     constructor(
         private modalController: ModalController,
         private alertController: AlertController,
+        private toastController: ToastController,
         private service: ContratoService,
     ) {
         this.load();
@@ -43,7 +44,7 @@ export class ContratoPage {
                     text: 'Sim',
                     handler: () => {
                         contrato.obsoleto = true;
-                        this.update(contrato);
+                        this.update(contrato, 'Excluído');
                     }
                 }
             ]
@@ -69,13 +70,14 @@ export class ContratoPage {
         this.load();
     }
 
-    private update(contrato: Contrato): void {
+    private update(contrato: Contrato, msg?: string): void {
         if (!contrato) { return; }
         (
             !!contrato.id ?
                 this.service.alterar(contrato) :
                 this.service.inserir(contrato)
         ).then(() => {
+            this.presentToast(`${msg || 'Salvo'} com sucesso!`);
             this.load();
         });
     }
@@ -104,6 +106,14 @@ export class ContratoPage {
         });
         modal.present();
         return modal.onWillDismiss<Contrato>();
+    }
+
+    private async presentToast(message: string) {
+        const toast = await this.toastController.create({
+            message,
+            duration: 2000
+        });
+        toast.present();
     }
 
 }

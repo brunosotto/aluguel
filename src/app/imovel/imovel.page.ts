@@ -1,5 +1,5 @@
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { ImovelModalPage } from './imovel-modal/imovel-modal.page';
-import { AlertController, ModalController } from '@ionic/angular';
 import { ImovelService } from '../api/imovel.service';
 import { Imovel } from '../../model/imovel.model';
 import { OverlayEventDetail } from '@ionic/core';
@@ -19,6 +19,7 @@ export class ImovelPage {
     constructor(
         private modalController: ModalController,
         private alertController: AlertController,
+        private toastController: ToastController,
         private service: ImovelService,
     ) {
         this.load();
@@ -41,7 +42,7 @@ export class ImovelPage {
                     text: 'Sim',
                     handler: () => {
                         imovel.obsoleto = true;
-                        this.update(imovel);
+                        this.update(imovel, 'Excluído');
                     }
                 }
             ]
@@ -62,13 +63,14 @@ export class ImovelPage {
         });
     }
 
-    private update(imovel: Imovel): void {
+    private update(imovel: Imovel, msg?: string): void {
         if (!imovel) { return; }
         (
             !!imovel.id ?
                 this.service.alterar(imovel) :
                 this.service.inserir(imovel)
         ).then(() => {
+            this.presentToast(`${msg || 'Salvo'} com sucesso!`);
             this.load();
         });
     }
@@ -91,6 +93,14 @@ export class ImovelPage {
         });
         modal.present();
         return modal.onWillDismiss<Imovel>();
+    }
+
+    private async presentToast(message: string) {
+        const toast = await this.toastController.create({
+            message,
+            duration: 2000
+        });
+        toast.present();
     }
 
 }

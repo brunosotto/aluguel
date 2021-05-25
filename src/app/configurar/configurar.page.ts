@@ -52,7 +52,7 @@ export class ConfigurarPage {
             componentProps: {}
         });
         modal.present();
-        modal.onWillDismiss<undefined>().then(ret => {
+        modal.onWillDismiss<undefined>().then(_ => {
             this.reload();
         });
     }
@@ -64,7 +64,7 @@ export class ConfigurarPage {
             componentProps: {}
         });
         modal.present();
-        modal.onWillDismiss<undefined>().then(ret => {
+        modal.onWillDismiss<undefined>().then(_ => {
             this.reload();
         });
     }
