@@ -1,7 +1,8 @@
+import { ReciboConfigService } from '../../api/recibo-config.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReciboConfig } from '../../../model/recibo-config.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -17,6 +18,8 @@ export class ReciboConfigModalPage implements OnInit, OnDestroy {
 
     constructor(
         private modalController: ModalController,
+        private toastController: ToastController,
+        private service: ReciboConfigService,
         private fb: FormBuilder,
     ) {
         this.buildForm();
@@ -30,23 +33,34 @@ export class ReciboConfigModalPage implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    public async salvar() {
+    public async salvar(): Promise<void> {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             return;
         }
 
-        this.modalController.dismiss(this.form.value as ReciboConfig);
+        await this.service.manter(this.form.value as ReciboConfig);
+        this.presentToast('Salvo com sucesso!');
+        this.modalController.dismiss();
     }
 
     public cancelar(): void {
         this.modalController.dismiss();
     }
 
-    private buildForm(): void {
+    private async buildForm(): Promise<void> {
+        const current = await this.service.obter();
         this.form = this.fb.group({
-            nomeEmitente: [null, Validators.required],
+            nomeEmitente: [current.nomeEmitente || null, Validators.required],
         });
+    }
+
+    private async presentToast(message: string) {
+        const toast = await this.toastController.create({
+            message,
+            duration: 2000
+        });
+        toast.present();
     }
 
 }

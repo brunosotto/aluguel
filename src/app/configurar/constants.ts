@@ -5,4 +5,5 @@ export enum TABELAS {
     CONTRATO = 'contrato',
     INQUILINO = 'inquilino',
     IMOVEL = 'imovel',
+    RECIBO_CONFIG = 'reciboConfig',
 };
