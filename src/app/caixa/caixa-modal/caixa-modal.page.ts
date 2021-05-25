@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnDestroy } from '@angular/core';
 import { Caixa } from '../../../model/caixa.model';
 import { ModalController } from '@ionic/angular';
@@ -30,6 +30,11 @@ export class CaixaModalPage implements OnDestroy {
   }
 
   public salvar(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     this.modalController.dismiss(this.form.value as Caixa);
   }
 
@@ -40,10 +45,10 @@ export class CaixaModalPage implements OnDestroy {
   private buildForm(): void {
     this.form = this.fb.group({
       id: [null],
-      tipoLancamento: [null],
+      tipoLancamento: [null, Validators.required],
       data: [moment().toISOString()],
-      valor: [null],
-      descricao: [null],
+      valor: [null, [Validators.required, Validators.min(0.01)]],
+      descricao: [null, Validators.required],
       aluguel: [null],
       aluguelId: [null],
       contaDeConsumo: [false],

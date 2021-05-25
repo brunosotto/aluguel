@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -32,6 +32,15 @@ export class AluguelModalPage implements OnInit, OnDestroy {
     }
 
     public salvar(): void {
+        if (this.form.invalid) {
+          this.form.markAllAsTouched();
+          return;
+        }
+
+        if (this.form.get('gerar').value === 'U' && !this.form.get('contrato').value) {
+            return;
+        }
+
         this.modalController.dismiss(this.form.value as GenerateAluguelInput);
     }
 
@@ -41,10 +50,10 @@ export class AluguelModalPage implements OnInit, OnDestroy {
 
     private buildForm(): void {
         this.form = this.fb.group({
-            gerar: [null],
+            gerar: [null, Validators.required],
             contrato: [null],
             contratoId: [null],
-            competencia: [null],
+            competencia: [null, Validators.required],
         });
 
         this.listenGerar();
@@ -53,7 +62,7 @@ export class AluguelModalPage implements OnInit, OnDestroy {
     private listenGerar(): void {
         this.form.get('gerar').valueChanges
             .pipe(takeUntil(this.destroy$))
-            .subscribe(_ => {
+            .subscribe((g: GerarOptions) => {
                 this.form.get('contrato').setValue(null);
                 this.form.get('contratoId').setValue(null);
             });
@@ -62,8 +71,10 @@ export class AluguelModalPage implements OnInit, OnDestroy {
 }
 
 export interface GenerateAluguelInput {
-    gerar?: 'T' | 'U';
+    gerar?: GerarOptions;
     contrato?: Contrato;
     contratoId?: string;
     competencia?: Date;
 }
+
+type GerarOptions = 'T' | 'U';

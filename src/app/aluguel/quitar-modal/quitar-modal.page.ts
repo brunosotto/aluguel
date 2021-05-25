@@ -1,6 +1,6 @@
 import { PagamentoType, QuitarAluguel } from '../../../model/quitar-aluguel.model';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Aluguel } from '../../../model/aluguel.model';
 import { ModalController } from '@ionic/angular';
 import { takeUntil } from 'rxjs/operators';
@@ -36,6 +36,11 @@ export class QuitarModalPage implements OnInit, OnDestroy {
     }
 
     public salvar(): void {
+        if (this.form.invalid) {
+          this.form.markAllAsTouched();
+          return;
+        }
+
         this.modalController.dismiss(this.form.value as QuitarAluguel);
     }
 
@@ -45,9 +50,9 @@ export class QuitarModalPage implements OnInit, OnDestroy {
 
     private buildForm(): void {
         this.form = this.fb.group({
-            pagamento: [null],
-            valor: [this.aluguel.valor],
-            valorPago: [null],
+            pagamento: [null, Validators.required],
+            valor: [this.aluguel.valor, Validators.required],
+            valorPago: [null, [Validators.required, Validators.min(0.01)]],
             obs: [null],
         });
 

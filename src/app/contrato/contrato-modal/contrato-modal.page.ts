@@ -42,6 +42,11 @@ export class ContratoModalPage implements OnInit, OnDestroy {
     }
 
     public salvar(): void {
+        if (this.form.invalid) {
+          this.form.markAllAsTouched();
+          return;
+        }
+
         this.modalController.dismiss(this.form.value as Contrato);
     }
 
@@ -81,7 +86,7 @@ export class ContratoModalPage implements OnInit, OnDestroy {
             imovelId: [contrato.imovelId || null, Validators.required],
             inquilino: [contrato.inquilino || null, Validators.required],
             inquilinoId: [contrato.inquilinoId || null, Validators.required],
-            valor: [contrato.valor || null, Validators.required],
+            valor: [contrato.valor || null, [Validators.required, Validators.min(0.01)]],
             dataInicio: [contrato.dataInicio || null, Validators.required],
             dataEncerramento: [contrato.dataEncerramento || null],
             diaVencimento: [contrato.diaVencimento || null, [Validators.required, Validators.min(1), Validators.max(31)]],

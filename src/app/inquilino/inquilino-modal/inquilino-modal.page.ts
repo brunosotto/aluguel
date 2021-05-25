@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Inquilino } from '../../../model/inquilino.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 
@@ -35,6 +35,11 @@ export class InquilinoModalPage implements OnInit, OnDestroy {
   }
 
   public salvar(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     this.modalController.dismiss(this.form.value as Inquilino);
   }
 
@@ -46,8 +51,8 @@ export class InquilinoModalPage implements OnInit, OnDestroy {
     const inquilino = this.inquilino || {};
     this.form = this.fb.group({
       id: [inquilino.id || null],
-      nome: [inquilino.nome || null],
-      telefone: [inquilino.telefone || null],
+      nome: [inquilino.nome || null, Validators.required],
+      telefone: [inquilino.telefone || null, Validators.required],
       cpf: [inquilino.cpf || null],
       emprego: [inquilino.emprego || null],
       obs: [inquilino.obs || null],

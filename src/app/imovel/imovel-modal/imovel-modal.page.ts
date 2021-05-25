@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Imovel } from '../../../model/imovel.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 
@@ -35,6 +35,11 @@ export class ImovelModalPage implements OnInit, OnDestroy {
   }
 
   public salvar(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     this.modalController.dismiss(this.form.value as Imovel);
   }
 
@@ -46,9 +51,9 @@ export class ImovelModalPage implements OnInit, OnDestroy {
     const imovel = this.imovel || {};
     this.form = this.fb.group({
       id: [imovel.id || null],
-      nome: [imovel.nome || null],
-      endereco: [imovel.endereco || null],
-      descricao: [imovel.descricao || null],
+      nome: [imovel.nome || null, Validators.required],
+      endereco: [imovel.endereco || null, Validators.required],
+      descricao: [imovel.descricao || null, Validators.required],
       obs: [imovel.obs || null],
       obsoleto: [imovel.obsoleto || false],
     });
