@@ -1,3 +1,4 @@
+import { ReciboConfigModalPage } from './recibo-config-modal/recibo-config-modal.page';
 import { ConfigurarPageRoutingModule } from './configurar-routing.module';
 import { RestoreModalPage } from './retore-modal/restore-modal.page';
 import { BackupModalPage } from './backup-modal/backup-modal.page';
@@ -20,11 +21,13 @@ import { NgModule } from '@angular/core';
   entryComponents: [
     BackupModalPage,
     RestoreModalPage,
+    ReciboConfigModalPage,
   ],
   declarations: [
     ConfigurarPage,
     BackupModalPage,
     RestoreModalPage,
+    ReciboConfigModalPage,
   ]
 })
 export class ConfigurarPageModule {}

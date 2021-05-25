@@ -4,6 +4,7 @@ import { BackupModalPage } from './backup-modal/backup-modal.page';
 import { Storage } from '@ionic/storage-angular';
 import { Component } from '@angular/core';
 import { TABELAS } from './constants';
+import { ReciboConfigModalPage } from './recibo-config-modal/recibo-config-modal.page';
 
 @Component({
     selector: 'app-configurar',
@@ -66,6 +67,15 @@ export class ConfigurarPage {
         modal.onWillDismiss<undefined>().then(ret => {
             this.reload();
         });
+    }
+
+    public async configRecibo(): Promise<void> {
+        const modal = await this.modalController.create({
+            component: ReciboConfigModalPage,
+            cssClass: 'my-custom-class',
+            componentProps: {}
+        });
+        modal.present();
     }
 
     private async init(): Promise<boolean> {
