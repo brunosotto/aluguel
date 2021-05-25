@@ -6,10 +6,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [formGroup]="form">
   <ion-list>
     <ion-item>
-      <ion-label stacked>Arquivo de dados</ion-label>
+      <ion-label position="floating">Nome do emitente</ion-label>
+      <ion-input type="text" formControlName="nomeEmitente"></ion-input>
     </ion-item>
   </ion-list>
 </ion-content>

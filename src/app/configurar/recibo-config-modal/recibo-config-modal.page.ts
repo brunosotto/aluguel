@@ -1,5 +1,7 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReciboConfig } from '../../../model/recibo-config.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {  ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -9,11 +11,15 @@ import { Subject } from 'rxjs';
 })
 export class ReciboConfigModalPage implements OnInit, OnDestroy {
 
+    public form: FormGroup;
+
     private destroy$: Subject<void> = new Subject();
 
     constructor(
         private modalController: ModalController,
+        private fb: FormBuilder,
     ) {
+        this.buildForm();
     }
 
     ngOnInit() {
@@ -25,10 +31,22 @@ export class ReciboConfigModalPage implements OnInit, OnDestroy {
     }
 
     public async salvar() {
+        if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            return;
+        }
+
+        this.modalController.dismiss(this.form.value as ReciboConfig);
     }
 
     public cancelar(): void {
         this.modalController.dismiss();
+    }
+
+    private buildForm(): void {
+        this.form = this.fb.group({
+            nomeEmitente: [null, Validators.required],
+        });
     }
 
 }
