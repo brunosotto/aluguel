@@ -58,7 +58,7 @@ export class ConfigurarPage {
         });
         modal.present();
         modal.onWillDismiss<undefined>().then(ret => {
-            console.log('após restore::', ret);
+            this.reload();
         });
     }
 
@@ -70,8 +70,14 @@ export class ConfigurarPage {
         });
         modal.present();
         modal.onWillDismiss<undefined>().then(ret => {
-            console.log('após restore::', ret);
+            this.reload();
         });
+    }
+
+    private reload(): void {
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
     }
 
     private clearAll(): void {
@@ -86,6 +92,7 @@ export class ConfigurarPage {
                         this.inquilinoService.clear().then(() => {
                             this.presentToast('Inquilino limpo');
                             this.presentToast('Concluído');
+                            this.reload();
                         });
                     });
                 });

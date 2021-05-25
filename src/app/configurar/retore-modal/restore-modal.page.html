@@ -6,11 +6,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" [formGroup]="form">
+<ion-content [fullscreen]="true">
   <ion-list>
     <ion-item>
       <ion-label stacked>Arquivo de dados</ion-label>
-      <ion-input type="file" formControlName="arquivo" accept="application/JSON" (change)="changeListener($event)"></ion-input>
+      <ion-input type="file" accept="application/JSON" (change)="changeListener($event)"></ion-input>
     </ion-item>
   </ion-list>
 </ion-content>
