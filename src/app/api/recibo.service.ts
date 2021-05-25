@@ -1,10 +1,13 @@
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
+import { ReciboConfig } from '../../model/recibo-config.model';
+import { ReciboConfigService } from './recibo-config.service';
 import { Aluguel } from '../../model/aluguel.model';
 import { File } from '@ionic-native/file/ngx';
 import { Injectable } from '@angular/core';
 import extenso from 'extenso';
 import moment from 'moment';
+import { ToastController } from '@ionic/angular';
 @Injectable({
     providedIn: 'root'
 })
@@ -12,15 +15,25 @@ export class ReciboService {
 
     private readonly contentType = 'application/pdf';
     private readonly folderPath = this.file.cacheDirectory;
+    private config: ReciboConfig;
 
     constructor(
         private file: File,
         private pdfGenerator: PDFGenerator,
         private socialSharing: SocialSharing,
+        private toastController: ToastController,
+        private reciboConfig: ReciboConfigService,
     ) {
     }
 
     public async gerar(aluguel: Aluguel, isParcial: boolean): Promise<boolean> {
+        this.config = await this.reciboConfig.obter();
+
+        if (!this.config || !this.config.nomeEmitente) {
+            this.presentToast('É necessário configurar o recibo na tela de configurações!');
+            return;
+        }
+
         const html = this.template(aluguel, isParcial);
         const fileName = this.reciboName(aluguel, isParcial);
         return await this.gerarRecibo(fileName, html);
@@ -42,7 +55,7 @@ export class ReciboService {
             <p>Sito à <b>${imovel.endereco}</b></p>
             <p>Correspondente ao periodo de <b>${isParcial ? 'parcial' : '1 mês'}</b></p>
             <p>Vencido em <b>${moment(aluguel.vencimento).format('DD/MM/YYYY')}</b></p>
-            <p><b>Gisleine Rosario da Silva Sotto</b></p>
+            <p><b>${this.config.nomeEmitente}</b></p>
             <h4>Autenticação: ${aluguel.id}</h4>
             </html>`;
     }
@@ -118,6 +131,14 @@ export class ReciboService {
             this.b64toBlob(content, this.contentType),
             { replace: true }
         );
+    }
+
+    private async presentToast(message: string) {
+        const toast = await this.toastController.create({
+            message,
+            duration: 2000
+        });
+        toast.present();
     }
 
 }
