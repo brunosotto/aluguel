@@ -76,6 +76,16 @@
         <div class="item-accordion-content">
           <ion-row>
             <ion-col>
+              <div *ngIf="c.imovel?.nome">
+                <p>Imóvel:</p>
+                <p>{{ c.imovel?.nome }}</p>
+              </div>
+
+              <div *ngIf="c.valor">
+                <p>Valor:</p>
+                <p>{{ c.valor | number : '1.2' }}</p>
+              </div>
+
               <div *ngIf="c.inquilino?.nome">
                 <p>Inquilino:</p>
                 <p>{{ c.inquilino?.nome }}</p>

@@ -99,6 +99,16 @@
                                 <p [innerHTML]="a.motivoCancelamento | nl2br"></p>
                             </div>
 
+                            <div *ngIf="a.sequencia">
+                                <p>Sequência:</p>
+                                <p>{{ a.sequencia }}</p>
+                            </div>
+
+                            <div *ngIf="a.contrato">
+                                <p>Imóvel:</p>
+                                <p>{{ a.contrato?.imovel?.nome }}</p>
+                            </div>
+
                             <div *ngIf="a.contrato">
                                 <p>Inquilino:</p>
                                 <p>{{ a.contrato?.inquilino?.nome }}</p>
@@ -106,6 +116,11 @@
 
                             <div *ngIf="a.contrato?.antecipado">
                                 <p>É antecipado</p>
+                            </div>
+
+                            <div *ngIf="a.vencimento">
+                                <p>Vencimento</p>
+                                <p>{{ a.vencimento | date: 'dd/MM/yyyy' }}</p>
                             </div>
 
                             <div *ngIf="a.contrato?.valor">

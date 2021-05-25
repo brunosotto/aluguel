@@ -52,6 +52,11 @@
         <div class="item-accordion-content">
           <ion-row>
             <ion-col>
+              <div *ngIf="i.nome">
+                <p>Nome:</p>
+                <p>{{ i.nome }}</p>
+              </div>
+
               <div *ngIf="i.endereco">
                 <p>Endereço:</p>
                 <p>{{ i.endereco }}</p>

@@ -60,6 +60,16 @@
         <div class="item-accordion-content">
           <ion-row>
             <ion-col>
+              <div *ngIf="l.data">
+                  <p>Data:</p>
+                  <p>{{ l.data | date: 'dd/MM/yyyy' }}</p>
+              </div>
+
+              <div *ngIf="l.valor">
+                  <p>Valor:</p>
+                  <p>{{ l.valor | number : '1.2' }} {{ l.tipoLancamento === 'D' ? 'Débito' : 'Crédito' }}</p>
+              </div>
+
               <div *ngIf="l.contaDeConsumo">
                 <p>É conta de consumo</p>
               </div>

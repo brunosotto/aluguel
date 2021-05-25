@@ -52,6 +52,11 @@
         <div class="item-accordion-content">
           <ion-row>
             <ion-col>
+              <div *ngIf="i.nome">
+                <p>Nome:</p>
+                <p>{{ i.nome }}</p>
+              </div>
+
               <div *ngIf="i.telefone">
                 <p>Telefone:</p>
                 <p>{{ i.telefone | mask: '(00) 00000-0000' }}</p>
