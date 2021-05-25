@@ -34,6 +34,10 @@ export class RestoreModalPage implements OnInit, OnDestroy {
     }
 
     public async restaurar() {
+        if (!this.file) {
+            return;
+        }
+
         const alert = await this.alertController.create({
             cssClass: 'my-custom-class',
             header: 'Confirma a restauração de dados?',
