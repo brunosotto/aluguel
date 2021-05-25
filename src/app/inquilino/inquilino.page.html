@@ -59,7 +59,11 @@
 
               <div *ngIf="i.telefone">
                 <p>Telefone:</p>
-                <p>{{ i.telefone | mask: '(00) 00000-0000' }}</p>
+                <p>
+                  <a target="_blank" [href]="'https://api.whatsapp.com/send?phone=55' + i.telefone">
+                    {{ i.telefone | mask: '(00) 00000-0000' }}
+                  </a>
+                </p>
               </div>
 
               <div *ngIf="i.cpf">
