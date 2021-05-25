@@ -15,7 +15,9 @@ import { File } from '@ionic-native/file/ngx';
 
 registerLocaleData(localePt, 'pt');
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,

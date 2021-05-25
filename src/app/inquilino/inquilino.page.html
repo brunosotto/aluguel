@@ -54,12 +54,12 @@
             <ion-col>
               <div *ngIf="i.telefone">
                 <p>Telefone:</p>
-                <p>{{ i.telefone }}</p>
+                <p>{{ i.telefone | mask: '(00) 00000-0000' }}</p>
               </div>
 
               <div *ngIf="i.cpf">
                 <p>CPF:</p>
-                <p>{{ i.cpf }}</p>
+                <p>{{ i.cpf | mask: '000.000.000-00' }}</p>
               </div>
 
               <div *ngIf="i.emprego">

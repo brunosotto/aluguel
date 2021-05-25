@@ -7,6 +7,10 @@ import { InquilinoPage } from './inquilino.page';
 import { InquilinoPageRoutingModule } from './inquilino-routing.module';
 import { InquilinoModalPage } from './inquilino-modal/inquilino-modal.page';
 import { Nl2BrPipeModule } from 'nl2br-pipe';
+import { IonicMaskDirective } from '../ionic-mask.directive';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   imports: [
@@ -15,6 +19,7 @@ import { Nl2BrPipeModule } from 'nl2br-pipe';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([{ path: '', component: InquilinoPage }]),
+    NgxMaskModule.forRoot(),
     InquilinoPageRoutingModule,
     Nl2BrPipeModule,
   ],
@@ -24,6 +29,7 @@ import { Nl2BrPipeModule } from 'nl2br-pipe';
   declarations: [
     InquilinoModalPage,
     InquilinoPage,
+    IonicMaskDirective,
   ]
 })
 export class InquilinoPageModule {}
