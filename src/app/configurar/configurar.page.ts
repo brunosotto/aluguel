@@ -1,13 +1,9 @@
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
-import { InquilinoService } from '../api/inquilino.service';
-import { ContratoService } from '../api/contrato.service';
-import { AluguelService } from '../api/aluguel.service';
-import { ImovelService } from '../api/imovel.service';
-import { CaixaService } from '../api/caixa.service';
-import { OverlayEventDetail } from '@ionic/core';
-import { Component } from '@angular/core';
 import { RestoreModalPage } from './retore-modal/restore-modal.page';
 import { BackupModalPage } from './backup-modal/backup-modal.page';
+import { Storage } from '@ionic/storage-angular';
+import { Component } from '@angular/core';
+import { TABELAS } from './constants';
 
 @Component({
     selector: 'app-configurar',
@@ -16,15 +12,13 @@ import { BackupModalPage } from './backup-modal/backup-modal.page';
 })
 export class ConfigurarPage {
 
+    private store: Storage | null = null;
+
     constructor(
-        private inquilinoService: InquilinoService,
         private alertController: AlertController,
         private toastController: ToastController,
-        private contratoService: ContratoService,
         private modalController: ModalController,
-        private aluguelService: AluguelService,
-        private imovelService: ImovelService,
-        private caixaService: CaixaService,
+        private storage: Storage,
     ) { }
 
     public async limparBanco() {
@@ -41,7 +35,7 @@ export class ConfigurarPage {
                 }, {
                     text: 'Limpar',
                     handler: () => {
-                        this.clearAll();
+                        this.clearAll(Object.values(TABELAS));
                     }
                 }
             ]
@@ -54,7 +48,7 @@ export class ConfigurarPage {
         const modal = await this.modalController.create({
             component: BackupModalPage,
             cssClass: 'my-custom-class',
-            componentProps: { }
+            componentProps: {}
         });
         modal.present();
         modal.onWillDismiss<undefined>().then(ret => {
@@ -66,12 +60,17 @@ export class ConfigurarPage {
         const modal = await this.modalController.create({
             component: RestoreModalPage,
             cssClass: 'my-custom-class',
-            componentProps: { }
+            componentProps: {}
         });
         modal.present();
         modal.onWillDismiss<undefined>().then(ret => {
             this.reload();
         });
+    }
+
+    private async init(): Promise<boolean> {
+        this.store = await this.storage.create();
+        return true;
     }
 
     private reload(): void {
@@ -80,24 +79,25 @@ export class ConfigurarPage {
         }, 1000);
     }
 
-    private clearAll(): void {
-        this.aluguelService.clear().then(() => {
-            this.presentToast('Aluguel limpo');
-            this.caixaService.clear().then(() => {
-                this.presentToast('Caixa limpo');
-                this.contratoService.clear().then(() => {
-                    this.presentToast('Contrato limpo');
-                    this.imovelService.clear().then(() => {
-                        this.presentToast('Imóvel limpo');
-                        this.inquilinoService.clear().then(() => {
-                            this.presentToast('Inquilino limpo');
-                            this.presentToast('Concluído');
-                            this.reload();
-                        });
-                    });
-                });
+    private clearAll(tables: string[]): void {
+        if (!!tables.length) {
+            const table = tables.pop();
+            this.clearTable(table).then(result => {
+                this.clearAll(tables);
             });
-        });
+            return;
+        }
+
+        this.presentToast('Concluído');
+        this.reload();
+    }
+
+    private async clearTable(table: string) {
+        if (!this.store) {
+            await this.init();
+        }
+
+        await this.store.set(table, null);
     }
 
     private async presentToast(message: string) {
