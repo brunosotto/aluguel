@@ -20,9 +20,33 @@
   </ion-header>
 
   <ion-list>
-    <ion-list-header>
+    <ion-list-header *ngIf="!filter; else withFilter">
       Últimos lançamentos
+      <ion-button (click)="filtrar()" class="ion-margin-start">
+        <ion-icon slot="icon-only" name="filter"></ion-icon>
+      </ion-button>
     </ion-list-header>
+
+    <ng-template #withFilter>
+      <ion-list-header>
+        Filtro ativo
+        <ion-button (click)="removerFiltro()" class="ion-margin-start">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-list-header>
+      <ion-list-header>
+        Periodo de {{ filter.dataInicio | date: 'dd/MM/yyyy' }} à {{ filter.dataFim | date: 'dd/MM/yyyy' }}
+      </ion-list-header>
+      <ion-list-header>
+        Total de créditos: {{ totais?.creditos | number : '1.2' }}
+      </ion-list-header>
+      <ion-list-header>
+        Total de débitos: {{ totais?.debitos | number : '1.2' }}
+      </ion-list-header>
+      <ion-list-header>
+        Somente consumo: {{ totais?.consumo | number : '1.2' }}
+      </ion-list-header>
+    </ng-template>
 
     <ion-item-sliding *ngFor="let l of lancamentos">
       <ion-item-options *ngIf="!l.cancelado" side="start">

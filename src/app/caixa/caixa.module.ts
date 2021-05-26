@@ -1,12 +1,13 @@
-import { IonicModule } from '@ionic/angular';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CaixaPage } from './caixa.page';
-import { CaixaPageRoutingModule } from './caixa-routing.module';
-import { Nl2BrPipeModule } from 'nl2br-pipe';
-import { CaixaModalPage } from './caixa-modal/caixa-modal.page';
 import { InputMoneyModule } from '../input-money/input-money.module';
+import { FiltroModalPage } from './filtro-modal/filtro-modal.page';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CaixaPageRoutingModule } from './caixa-routing.module';
+import { CaixaModalPage } from './caixa-modal/caixa-modal.page';
+import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
+import { Nl2BrPipeModule } from 'nl2br-pipe';
+import { NgModule } from '@angular/core';
+import { CaixaPage } from './caixa.page';
 
 @NgModule({
   imports: [
@@ -19,9 +20,11 @@ import { InputMoneyModule } from '../input-money/input-money.module';
     InputMoneyModule,
   ],
   entryComponents: [
-    CaixaModalPage
+    FiltroModalPage,
+    CaixaModalPage,
   ],
   declarations: [
+    FiltroModalPage,
     CaixaModalPage,
     CaixaPage
   ],

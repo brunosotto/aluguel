@@ -3,7 +3,7 @@ import { Contrato } from '../../../model/contrato.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { DatetimeOptions } from '@ionic/core';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Subject } from 'rxjs';
 
 @Component({

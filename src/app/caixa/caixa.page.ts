@@ -1,10 +1,13 @@
 
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import { FiltroModalPage } from './filtro-modal/filtro-modal.page';
 import { CaixaModalPage } from './caixa-modal/caixa-modal.page';
+import { CaixaFiltro } from 'src/model/caixa-filtro.model';
 import { CaixaService } from '../api/caixa.service';
 import { OverlayEventDetail } from '@ionic/core';
 import { Caixa } from '../../model/caixa.model';
 import { Component } from '@angular/core';
+import moment from 'moment';
 
 @Component({
     selector: 'app-caixa',
@@ -16,6 +19,10 @@ export class CaixaPage {
     public lancamentos: Caixa[];
 
     public expanded: string;
+
+    public filter: CaixaFiltro;
+
+    public totais: CaixaTotal;
 
     constructor(
         private modalController: ModalController,
@@ -73,6 +80,18 @@ export class CaixaPage {
         });
     }
 
+    public filtrar(): void {
+        this.presentModalFiltro().then(ret => {
+            this.filter = ret.data;
+            this.load();
+        });
+    }
+
+    public removerFiltro(): void {
+        this.filter = null;
+        this.load();
+    }
+
     private update(lancamento: Caixa, msg?: string): void {
         if (!lancamento) { return; }
         (
@@ -87,6 +106,34 @@ export class CaixaPage {
 
     private async load(): Promise<void> {
         this.lancamentos = (await this.service.listar()).reverse();
+
+        if (this.filter) {
+            const dataInicio = moment(this.filter.dataInicio).startOf('day');
+            const dataFim = moment(this.filter.dataFim).endOf('day');
+            this.lancamentos = this.lancamentos
+                .filter(l => moment(l.data).isBetween(dataInicio, dataFim));
+            this.calcTotal();
+        }
+    }
+
+    private calcTotal(): void {
+        const creditos = this.lancamentos
+            .filter(l => l.tipoLancamento === 'C')
+            .reduce((a, c) => a + c.valor, 0);
+
+        const debitos = this.lancamentos
+            .filter(l => l.tipoLancamento === 'D')
+            .reduce((a, c) => a + c.valor, 0);
+
+        const consumo = this.lancamentos
+            .filter(l => l.tipoLancamento === 'D' && l.contaDeConsumo)
+            .reduce((a, c) => a + c.valor, 0);
+
+        this.totais = {
+            creditos,
+            debitos,
+            consumo
+        };
     }
 
     private async presentModal(): Promise<OverlayEventDetail<Caixa>> {
@@ -98,6 +145,15 @@ export class CaixaPage {
         return modal.onWillDismiss<Caixa>();
     }
 
+    private async presentModalFiltro(): Promise<OverlayEventDetail<CaixaFiltro>> {
+        const modal = await this.modalController.create({
+            component: FiltroModalPage,
+            cssClass: 'my-custom-class'
+        });
+        modal.present();
+        return modal.onWillDismiss<CaixaFiltro>();
+    }
+
     private async presentToast(message: string) {
         const toast = await this.toastController.create({
             message,
@@ -106,4 +162,10 @@ export class CaixaPage {
         toast.present();
     }
 
+}
+
+interface CaixaTotal {
+    creditos: number;
+    debitos: number;
+    consumo: number;
 }

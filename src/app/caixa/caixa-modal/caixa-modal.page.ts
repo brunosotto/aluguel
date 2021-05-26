@@ -3,7 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Caixa } from '../../../model/caixa.model';
 import { ModalController } from '@ionic/angular';
 import { takeUntil } from 'rxjs/operators';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Subject } from 'rxjs';
 
 @Component({

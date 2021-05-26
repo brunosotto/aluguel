@@ -9,7 +9,7 @@ import { Aluguel } from '../../model/aluguel.model';
 import { Caixa } from '../../model/caixa.model';
 import { Injectable } from '@angular/core';
 import { v4 as uuid } from 'uuid';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Injectable({
     providedIn: 'root'

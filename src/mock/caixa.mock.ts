@@ -1,5 +1,5 @@
 import { Caixa } from '../model/caixa.model';
-import * as moment from 'moment';
+import moment from 'moment';
 
 export const lancamentosMock: Caixa[] = [
     {
