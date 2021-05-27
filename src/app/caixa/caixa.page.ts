@@ -30,6 +30,9 @@ export class CaixaPage {
         private toastController: ToastController,
         private service: CaixaService,
     ) {
+    }
+
+    ionViewDidEnter() {
         this.load();
     }
 

@@ -22,6 +22,9 @@ export class InquilinoPage {
         private toastController: ToastController,
         private service: InquilinoService,
     ) {
+    }
+
+    ionViewDidEnter() {
         this.load();
     }
 

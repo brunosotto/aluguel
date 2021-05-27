@@ -27,6 +27,9 @@ export class AluguelPage {
         private toastController: ToastController,
         private service: AluguelService,
     ) {
+    }
+
+    ionViewDidEnter() {
         this.load();
     }
 

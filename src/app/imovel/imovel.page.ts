@@ -22,6 +22,9 @@ export class ImovelPage {
         private toastController: ToastController,
         private service: ImovelService,
     ) {
+    }
+
+    ionViewDidEnter() {
         this.load();
     }
 

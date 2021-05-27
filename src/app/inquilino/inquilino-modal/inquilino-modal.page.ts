@@ -58,6 +58,10 @@ export class InquilinoModalPage implements OnInit, OnDestroy {
       obs: [inquilino.obs || null],
       obsoleto: [inquilino.obsoleto || false],
     });
+
+    setTimeout(_ => {
+      this.form.patchValue(inquilino);
+    }, 100);
   }
 
 }
