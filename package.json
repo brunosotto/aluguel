@@ -6,6 +6,7 @@
   "scripts": {
     "ng": "ng",
     "android": "ionic capacitor run android --livereload -l --external",
+    "resources": "cordova-res ios && cordova-res android && node scripts/resources.js",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
@@ -62,6 +63,7 @@
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "4.16.1",
     "@typescript-eslint/parser": "4.16.1",
+    "cordova-res": "^0.15.3",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "30.7.6",
