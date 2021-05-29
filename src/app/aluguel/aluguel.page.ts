@@ -5,6 +5,7 @@ import { Aluguel, AluguelStatus } from '../../model/aluguel.model';
 import { QuitarAluguel } from '../../model/quitar-aluguel.model';
 import { AluguelPageService } from './aluguel.page.service';
 import { AluguelService } from '../api/aluguel.service';
+import { AvisoService } from '../api/aviso.service';
 import { OverlayEventDetail } from '@ionic/core';
 import { Component } from '@angular/core';
 @Component({
@@ -25,12 +26,14 @@ export class AluguelPage {
         private modalController: ModalController,
         private alertController: AlertController,
         private toastController: ToastController,
+        private avisoService: AvisoService,
         private service: AluguelService,
     ) {
     }
 
     ionViewDidEnter() {
         this.load();
+        this.aviso14Dias();
     }
 
     public expandItem(id: string): void {
@@ -97,6 +100,26 @@ export class AluguelPage {
 
     public isParcial(a: Aluguel): boolean {
         return a.isParcial || (!!a.valorPago && a.valorPago < a.valor);
+    }
+
+    private async aviso14Dias(): Promise<void> {
+        if (!await this.avisoService.mostrar()) { return; }
+        const alert = await this.alertController.create({
+            cssClass: 'my-custom-class',
+            header: 'Faça backup regularmente',
+            subHeader: 'Este app armazena os dados local, por isso é recomendável que seja feito backup dos dados regularmente.',
+            message: 'Vá até a aba configurar > Backup de dados',
+            buttons: [
+                {
+                    text: 'Ok',
+                    handler: () => {
+                        this.avisoService.atualizar();
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
     }
 
     private quitarAluguel(aluguel: Aluguel, quitar: QuitarAluguel): void {
