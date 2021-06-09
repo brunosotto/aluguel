@@ -12,7 +12,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SeletorInquilinoModalPage implements OnInit {
 
     @Input()
-    private inquilino: Inquilino;
+    public inquilino: Inquilino;
 
     public imoveis: Inquilino[];
 

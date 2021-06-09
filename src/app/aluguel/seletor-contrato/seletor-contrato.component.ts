@@ -15,10 +15,10 @@ import { takeUntil } from 'rxjs/operators';
 export class SeletorContratoComponent implements OnInit, OnDestroy {
 
     @Input()
-    private contratoControl: FormControl;
+    public contratoControl: FormControl;
 
     @Input()
-    private contratoIdControl: FormControl;
+    public contratoIdControl: FormControl;
 
     public contratoViewControl: FormControl = new FormControl(null);
 

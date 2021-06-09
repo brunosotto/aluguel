@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
 export class QuitarModalPage implements OnInit, OnDestroy {
 
     @Input()
-    private aluguel: Aluguel;
+    public aluguel: Aluguel;
 
     public form: FormGroup;
 

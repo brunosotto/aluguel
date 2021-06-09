@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 export class InquilinoModalPage implements OnInit, OnDestroy {
 
   @Input()
-  private inquilino: Inquilino;
+  public inquilino: Inquilino;
 
   public form: FormGroup;
 

@@ -9,13 +9,13 @@
 <ion-content [fullscreen]="true" [formGroup]="form">
   <ion-list>
     <app-seletor-imovel
-      [imovelControl]="form.get('imovel')"
-      [imovelIdControl]="form.get('imovelId')">
+      [imovelControl]="imovelControl"
+      [imovelIdControl]="imovelIdControl">
     </app-seletor-imovel>
 
     <app-seletor-inquilino
-      [inquilinoControl]="form.get('inquilino')"
-      [inquilinoIdControl]="form.get('inquilinoId')">
+      [inquilinoControl]="inquilinoControl"
+      [inquilinoIdControl]="inquilinoIdControl">
     </app-seletor-inquilino>
 
     <app-input-money

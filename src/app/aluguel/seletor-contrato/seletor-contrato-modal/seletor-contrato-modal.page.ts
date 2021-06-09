@@ -12,7 +12,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SeletorContratoModalPage implements OnInit {
 
     @Input()
-    private contrato: Contrato;
+    public contrato: Contrato;
 
     public contratos: Contrato[];
 

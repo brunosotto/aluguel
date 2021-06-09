@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -33,8 +33,8 @@ export class AluguelModalPage implements OnInit, OnDestroy {
 
     public salvar(): void {
         if (this.form.invalid) {
-          this.form.markAllAsTouched();
-          return;
+            this.form.markAllAsTouched();
+            return;
         }
 
         if (this.form.get('gerar').value === 'U' && !this.form.get('contrato').value) {
@@ -66,6 +66,14 @@ export class AluguelModalPage implements OnInit, OnDestroy {
                 this.form.get('contrato').setValue(null);
                 this.form.get('contratoId').setValue(null);
             });
+    }
+
+    public get contratoControl(): FormControl {
+        return this.form.get('contrato') as FormControl;
+    }
+
+    public get contratoIdControl(): FormControl {
+        return this.form.get('contratoId') as FormControl;
     }
 
 }

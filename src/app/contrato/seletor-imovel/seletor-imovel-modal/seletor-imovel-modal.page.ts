@@ -12,7 +12,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SeletorImovelModalPage implements OnInit {
 
     @Input()
-    private imovel: Imovel;
+    public imovel: Imovel;
 
     public imoveis: Imovel[];
 

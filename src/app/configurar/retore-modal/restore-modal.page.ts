@@ -63,8 +63,9 @@ export class RestoreModalPage implements OnInit, OnDestroy {
         this.modalController.dismiss();
     }
 
-    public changeListener(event: EventFile): void {
-        this.file = event.target.files[0];
+    public changeListener(event: Event): void {
+        const ev = event as EventFile;
+        this.file = ev.target.files[0];
     }
 
     private readFile(): void {

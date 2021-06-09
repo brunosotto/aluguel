@@ -1,8 +1,8 @@
 {
   "name": "aluguel",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "1.0.0",
+  "author": "Bruno Sotto",
+  "homepage": "https://sotto.com.br/",
   "scripts": {
     "ng": "ng",
     "android": "ionic capacitor run android --livereload -l --external",

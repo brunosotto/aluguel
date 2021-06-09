@@ -26,8 +26,8 @@
 
     <app-seletor-contrato
       *ngIf="form.get('gerar').value === 'U'"
-      [contratoControl]="form.get('contrato')"
-      [contratoIdControl]="form.get('contratoId')">
+      [contratoControl]="contratoControl"
+      [contratoIdControl]="contratoIdControl">
     </app-seletor-contrato>
 
     <ion-item>

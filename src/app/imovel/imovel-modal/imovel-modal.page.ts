@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 export class ImovelModalPage implements OnInit, OnDestroy {
 
   @Input()
-  private imovel: Imovel;
+  public imovel: Imovel;
 
   public form: FormGroup;
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Contrato } from '../../../model/contrato.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { DatetimeOptions } from '@ionic/core';
 import moment from 'moment';
@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
 export class ContratoModalPage implements OnInit, OnDestroy {
 
     @Input()
-    private contrato: Contrato;
+    public contrato: Contrato;
 
     public customDayShortNames = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
 
@@ -43,8 +43,8 @@ export class ContratoModalPage implements OnInit, OnDestroy {
 
     public salvar(): void {
         if (this.form.invalid) {
-          this.form.markAllAsTouched();
-          return;
+            this.form.markAllAsTouched();
+            return;
         }
 
         this.modalController.dismiss(this.form.value as Contrato);
@@ -95,6 +95,22 @@ export class ContratoModalPage implements OnInit, OnDestroy {
             obs: [contrato.obs || null],
             obsoleto: [contrato.obsoleto || false],
         });
+    }
+
+    public get inquilinoControl(): FormControl {
+        return this.form.get('inquilino') as FormControl;
+    }
+
+    public get inquilinoIdControl(): FormControl {
+        return this.form.get('inquilinoId') as FormControl;
+    }
+
+    public get imovelControl(): FormControl {
+        return this.form.get('imovel') as FormControl;
+    }
+
+    public get imovelIdControl(): FormControl {
+        return this.form.get('imovelId') as FormControl;
     }
 
 }

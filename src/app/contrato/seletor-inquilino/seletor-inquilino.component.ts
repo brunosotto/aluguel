@@ -15,10 +15,10 @@ import { takeUntil } from 'rxjs/operators';
 export class SeletorInquilinoComponent implements OnInit, OnDestroy {
 
     @Input()
-    private inquilinoControl: FormControl;
+    public inquilinoControl: FormControl;
 
     @Input()
-    private inquilinoIdControl: FormControl;
+    public inquilinoIdControl: FormControl;
 
     public inquilinoViewControl: FormControl = new FormControl(null);
 
