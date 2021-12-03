@@ -44,6 +44,9 @@
         Total de débitos: {{ totais?.debitos | number : '1.2' }}
       </ion-list-header>
       <ion-list-header>
+        Saldo: {{ ( totais?.creditos - totais?.debitos ) | number : '1.2' }}
+      </ion-list-header>
+      <ion-list-header>
         Somente consumo: {{ totais?.consumo | number : '1.2' }}
       </ion-list-header>
     </ng-template>
